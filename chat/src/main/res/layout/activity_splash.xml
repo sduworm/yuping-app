@@ -10,15 +10,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="113dp"
-        android:src="@mipmap/logo" />
+        android:src="@mipmap/logo_circle" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="10dp"
         android:text="@string/name"
-        android:textColor="@color/black2"
+        android:textColor="@color/black5"
         android:textSize="24sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/slogan"
+        android:textColor="@color/gray1"
+        android:textSize="18sp" />
 
     <Space
         android:layout_width="0dp"
@@ -28,9 +36,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="53dp"
-        android:text="@string/slogan"
-        android:textColor="@color/gray11"
-        android:textSize="18sp" />
-
+        android:layout_marginBottom="70dp"
+        android:text="@string/name_with_point"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp" />
 </LinearLayout>
