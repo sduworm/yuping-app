@@ -51,6 +51,9 @@ android {
     lint {
         abortOnError false
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -67,6 +70,13 @@ dependencies {
 
     // 采用 library module 的方式依赖 uikit，如果需要采用 aar 方式集成，请仔细下面的注释
     implementation project(':uikit')
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.navigation:navigation-fragment:2.6.0'
+    implementation 'androidx.navigation:navigation-ui:2.6.0'
+    implementation 'androidx.activity:activity:1.8.0'
 
     // 采用 aar 方式依赖 uikit，
     /*

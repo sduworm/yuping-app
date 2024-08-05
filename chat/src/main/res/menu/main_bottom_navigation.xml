@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+<!--    最多5个item，超过会报错-->
     <item
         android:id="@+id/discovery"
         android:icon="@drawable/bottom_discovery_menu_selector"
         android:title="遇瓶" />
     <item
-        android:id="@+id/workspace"
-        android:icon="@drawable/bottom_work_menu_selector"
-        android:title="工作台" />
+        android:id="@+id/moment"
+        android:icon="@drawable/bottom_moment_menu_selector"
+        android:title="动态" />
+<!--    <item-->
+<!--        android:id="@+id/workspace"-->
+<!--        android:icon="@drawable/bottom_work_menu_selector"-->
+<!--        android:title="工作台" />-->
     <item
         android:id="@+id/conversation_list"
         android:icon="@drawable/bottom_conversation_menu_selector"

@@ -76,6 +76,7 @@ import cn.wildfire.chat.kit.widget.ViewPagerFixed;
 import cn.wildfire.chat.kit.workspace.WebViewFragment;
 
 import com.yuping.chat.R;
+import com.yuping.chat.app.moment.MomentFragment;
 
 import cn.wildfirechat.client.ConnectionStatus;
 import cn.wildfirechat.message.LinkMessageContent;
@@ -146,9 +147,9 @@ public class MainActivity extends WfcBaseActivity implements ViewPager.OnPageCha
     @Override
     protected void afterViews() {
         bottomNavigationView.setItemIconTintList(null); // 导航栏图标恢复默认颜色
-        if (TextUtils.isEmpty(Config.WORKSPACE_URL)) {
-            bottomNavigationView.getMenu().removeItem(R.id.workspace);
-        }
+//        if (TextUtils.isEmpty(Config.WORKSPACE_URL)) {
+//            bottomNavigationView.getMenu().removeItem(R.id.workspace);
+//        }
         IMServiceStatusViewModel imServiceStatusViewModel = new ViewModelProvider(this).get(IMServiceStatusViewModel.class);
         imServiceStatusViewModel.imServiceStatusLiveData().observe(this, imStatusLiveDataObserver);
         IMConnectionStatusViewModel connectionStatusViewModel = new ViewModelProvider(this).get(IMConnectionStatusViewModel.class);
@@ -336,14 +337,16 @@ public class MainActivity extends WfcBaseActivity implements ViewPager.OnPageCha
         ConversationListFragment conversationListFragment = new ConversationListFragment();
         contactListFragment = new ContactListFragment();
         DiscoveryFragment discoveryFragment = new DiscoveryFragment();
+        MomentFragment momentFragment = new MomentFragment();
         MeFragment meFragment = new MeFragment();
         mFragmentList.add(discoveryFragment);
+        mFragmentList.add(momentFragment);
         mFragmentList.add(conversationListFragment);
         mFragmentList.add(contactListFragment);
-        boolean showWorkSpace = !TextUtils.isEmpty(Config.WORKSPACE_URL);
-        if (showWorkSpace) {
-            mFragmentList.add(WebViewFragment.loadUrl(Config.WORKSPACE_URL));
-        }
+//        boolean showWorkSpace = !TextUtils.isEmpty(Config.WORKSPACE_URL);
+//        if (showWorkSpace) {
+//            mFragmentList.add(WebViewFragment.loadUrl(Config.WORKSPACE_URL));
+//        }
         mFragmentList.add(meFragment);
         contentViewPager.setAdapter(new HomeFragmentPagerAdapter(getSupportFragmentManager(), mFragmentList));
         contentViewPager.addOnPageChangeListener(this);
@@ -357,29 +360,36 @@ public class MainActivity extends WfcBaseActivity implements ViewPager.OnPageCha
                         setTitleBackgroundResource(R.color.gray5, false);
                     }
                     break;
-                case R.id.conversation_list:
+                case R.id.moment:
                     contentViewPager.setCurrentItem(1, false);
+                    setTitle("动态");
+                    if (!isDarkTheme()) {
+                        setTitleBackgroundResource(R.color.gray5, false);
+                    }
+                    break;
+                case R.id.conversation_list:
+                    contentViewPager.setCurrentItem(2, false);
                     setTitle("消息");
                     if (!isDarkTheme()) {
                         setTitleBackgroundResource(R.color.gray5, false);
                     }
                     break;
                 case R.id.contact:
-                    contentViewPager.setCurrentItem(2, false);
+                    contentViewPager.setCurrentItem(3, false);
                     setTitle("好友");
                     if (!isDarkTheme()) {
                         setTitleBackgroundResource(R.color.gray5, false);
                     }
                     break;
-                case R.id.workspace:
-                    contentViewPager.setCurrentItem(3, false);
-                    setTitle("工作台");
-                    if (!isDarkTheme()) {
-                        setTitleBackgroundResource(R.color.gray5, false);
-                    }
-                    break;
+//                case R.id.workspace:
+//                    contentViewPager.setCurrentItem(4, false);
+//                    setTitle("工作台");
+//                    if (!isDarkTheme()) {
+//                        setTitleBackgroundResource(R.color.gray5, false);
+//                    }
+//                    break;
                 case R.id.me:
-                    contentViewPager.setCurrentItem(showWorkSpace ? 4 : 3, false);
+                    contentViewPager.setCurrentItem(4, false);
                     setTitle("遇瓶");
                     if (!isDarkTheme()) {
                         setTitleBackgroundResource(R.color.white, false);
@@ -470,7 +480,7 @@ public class MainActivity extends WfcBaseActivity implements ViewPager.OnPageCha
     @Override
     public void onPageSelected(int position) {
         if (TextUtils.isEmpty(Config.WORKSPACE_URL)) {
-            if (position > 1) {
+            if (position >= 4) {
                 position++;
             }
         }
@@ -479,14 +489,17 @@ public class MainActivity extends WfcBaseActivity implements ViewPager.OnPageCha
                 bottomNavigationView.setSelectedItemId(R.id.discovery);
                 break;
             case 1:
-                bottomNavigationView.setSelectedItemId(R.id.conversation_list);
+                bottomNavigationView.setSelectedItemId(R.id.moment);
                 break;
             case 2:
-                bottomNavigationView.setSelectedItemId(R.id.contact);
+                bottomNavigationView.setSelectedItemId(R.id.conversation_list);
                 break;
             case 3:
-                bottomNavigationView.setSelectedItemId(R.id.workspace);
+                bottomNavigationView.setSelectedItemId(R.id.contact);
                 break;
+//            case 4:
+//                bottomNavigationView.setSelectedItemId(R.id.workspace);
+//                break;
             case 4:
                 bottomNavigationView.setSelectedItemId(R.id.me);
                 break;
