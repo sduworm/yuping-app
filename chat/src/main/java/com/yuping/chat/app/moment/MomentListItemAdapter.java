@@ -1,6 +1,5 @@
 package com.yuping.chat.app.moment;
 
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +7,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.yuping.chat.R;
 
 import java.util.List;
+
 
 public class MomentListItemAdapter extends RecyclerView.Adapter<MomentListItemViewHolder> {
 
@@ -30,9 +31,9 @@ public class MomentListItemAdapter extends RecyclerView.Adapter<MomentListItemVi
     @Override
     public void onBindViewHolder(@NonNull MomentListItemViewHolder holder, int position) {
         MomentModel data = dataList.get(position);
-        holder.imageViewAvatar.setImageURI(Uri.parse(data.getAvatar()));
         holder.textViewNickname.setText(data.getDisplayName());
         holder.textViewContent.setText(data.getContent());
+        Glide.with(holder.itemView).load(data.getAvatar()).into(holder.imageViewAvatar);
     }
 
     @Override
