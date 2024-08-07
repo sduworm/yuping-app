@@ -34,4 +34,18 @@ public class MomentService {
 
         OKHttpHelper.post(url, params, callback);
     }
+
+    public void likeMoment(Long momentId) {
+        String url = AppService.APP_SERVER_ADDRESS + "/moment/like";
+        Map<String, String> params = new HashMap<>();
+        params.put("momentId", String.valueOf(momentId));
+        OKHttpHelper.get(url, params, null);
+    }
+
+    public void unlikeMoment(Long momentId) {
+        String url = AppService.APP_SERVER_ADDRESS + "/moment/unlike";
+        Map<String, String> params = new HashMap<>();
+        params.put("momentId", String.valueOf(momentId));
+        OKHttpHelper.get(url, params, null);
+    }
 }

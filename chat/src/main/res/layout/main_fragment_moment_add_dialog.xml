@@ -14,6 +14,10 @@
             android:id="@+id/moment_new_moment_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:lines="6"
+            android:minLines="6"
+            android:maxLines="6"
             android:layout_marginTop="16dp"
             android:hint="写动态..."
             android:textColor="@color/black"
@@ -26,7 +30,7 @@
             android:layout_below="@id/moment_new_moment_text"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="8dp"
-            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTint="@color/gray"
             android:text="发布" />
 
 

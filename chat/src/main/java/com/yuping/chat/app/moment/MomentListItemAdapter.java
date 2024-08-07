@@ -43,10 +43,30 @@ public class MomentListItemAdapter extends RecyclerView.Adapter<MomentListItemVi
     @Override
     public void onBindViewHolder(@NonNull MomentListItemViewHolder holder, int position) {
         MomentModel data = dataList.get(position);
+        Long momentId = data.getMomentId();
         holder.textViewNickname.setText(data.getDisplayName());
         holder.textViewContent.setText(data.getContent());
         holder.textUpdateTime.setText(formatDateTime(data.getUpdateDateTime()));
         Glide.with(holder.itemView).load(data.getAvatar()).into(holder.imageViewAvatar);
+        holder.textLikeCount.setText(String.valueOf(data.getLikeCount()));
+        holder.imageLike.setImageResource(data.getLike() ? R.mipmap.yuping_like : R.mipmap.yuping_unlike);
+        holder.imageLike.setOnClickListener(e->{
+            boolean isLike = data.getLike();
+            int likeCount = data.getLikeCount();
+            if(isLike) { // 取消点赞
+                holder.imageLike.setImageResource(R.mipmap.yuping_unlike);
+                data.setLike(false);
+                data.setLikeCount(--likeCount);
+                holder.textLikeCount.setText(String.valueOf(likeCount));
+                MomentService.Instance().unlikeMoment(momentId);
+            } else { // 点赞
+                holder.imageLike.setImageResource(R.mipmap.yuping_like);
+                data.setLike(true);
+                data.setLikeCount(++likeCount);
+                holder.textLikeCount.setText(String.valueOf(likeCount));
+                MomentService.Instance().likeMoment(momentId);
+            }
+        });
     }
 
     @Override

@@ -129,9 +129,9 @@ public class MomentFragment extends Fragment {
     }
 
     private void init() {
+        recyclerView.smoothScrollToPosition(0); // 平滑回到顶部
         currentPage = 0;
         getMomentList(currentPage, pageSize);
-
     }
 
     private void loadMoreData() {
@@ -177,12 +177,17 @@ public class MomentFragment extends Fragment {
 
         });
         submitButton.setOnClickListener(e -> {
+            String momentContent = momentText.getText().toString();
+            if (momentContent.isEmpty()){
+                return;
+            }
             swipeRefreshLayout.setRefreshing(true);
-            createMoment(momentText.getText().toString());
+            createMoment(momentContent);
             Handler handler = new Handler();
             // 这里是延迟1秒后执行的代码
             handler.postDelayed(this::init, 1500);
             dialog.hide();
+            momentText.setText("");
         });
     }
 }

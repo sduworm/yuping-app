@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +47,7 @@ public class MomentViewModel extends ViewModel {
             // 去重合并
             list.addAll(newData);
             List<MomentModel> result = list.stream()
-                    .distinct()
+                    .distinct().sorted(Comparator.comparingLong(MomentModel::getMomentId).reversed())
                     .collect(Collectors.toList());
 
             dataList.setValue(result);
