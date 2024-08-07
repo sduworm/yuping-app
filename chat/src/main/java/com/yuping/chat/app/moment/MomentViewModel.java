@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class MomentViewModel extends ViewModel {
@@ -32,15 +33,23 @@ public class MomentViewModel extends ViewModel {
     }
 
     // 提供一个方法来更新数据列表
-    public void updateDataList(List<MomentModel> newData) {
+    public void initDataList(List<MomentModel> newData) {
         dataList.setValue(newData);
     }
 
-    // 根据需要，你可以添加更多的方法来处理数据的添加、删除等操作
-    // 例如：
-     public void addMoment(MomentModel moment) {
-         List<MomentModel> currentList = dataList.getValue() != null ? new ArrayList<>(dataList.getValue()) : new ArrayList<>();
-         currentList.add(moment);
-         dataList.setValue(currentList);
-     }
+    // 提供一个方法来更新数据列表
+    public void updateDataList(List<MomentModel> newData) {
+        List<MomentModel> list = dataList.getValue();
+        if (list == null) {
+            dataList.setValue(newData);
+        } else {
+            // 去重合并
+            list.addAll(newData);
+            List<MomentModel> result = list.stream()
+                    .distinct()
+                    .collect(Collectors.toList());
+
+            dataList.setValue(result);
+        }
+    }
 }

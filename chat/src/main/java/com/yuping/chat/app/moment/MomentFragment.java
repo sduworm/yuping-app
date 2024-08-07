@@ -1,36 +1,48 @@
 package com.yuping.chat.app.moment;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.time.format.DateTimeFormatter;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.yuping.chat.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import cn.wildfire.chat.kit.net.SimpleCallback;
-import cn.wildfire.chat.kit.net.base.ResultWrapper;
 
 
 public class MomentFragment extends Fragment {
-
+    private final int pageSize = 10;
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
-    private MomentViewModel momentViewModel;
-    private SimpleCallback<List<MomentModel>> getMomentListCallback;
+    FloatingActionButton addButton;
+
+    private SimpleCallback<List<MomentModel>> momentListRequestCallback;
+    private Dialog dialog;
+    private int currentPage = 0;
+
+
+    // Adapter 用来做数据和界面显示的映射
+    // 好处是支持数据变化和界面变化的绑定
+    private MomentListItemAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,119 +50,139 @@ public class MomentFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.main_fragment_moment, container, false);
         bindViews(v);
-        bindEvents(v);
-//        init();
-        MomentService.Instance().recentMoments(this.getMomentListCallback);
+        bindEvents();
+        init();
         return v;
     }
 
     private void bindViews(View view) {
         recyclerView = view.findViewById(R.id.moment_list_item);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        adapter = new MomentListItemAdapter(new ArrayList<>());
+        recyclerView.setAdapter(adapter);
+
         swipeRefreshLayout = view.findViewById(R.id.moment_swipe_refresh_layout);
+        addButton = view.findViewById(R.id.moment_add_button);
+
+        bindDialog();
     }
 
-    private void bindEvents(View view) {
-        // 获取ViewModel实例
-        momentViewModel = new ViewModelProvider(this).get(MomentViewModel.class);
-        // 观察数据变化
-        momentViewModel.getDataList().observe(getViewLifecycleOwner(), new Observer<List<MomentModel>>() {
-            @Override
-            public void onChanged(List<MomentModel> momentModels) {
-                // 更新UI
-                // 例如，使用RecyclerView显示数据
-            }
+    private void bindEvents() {
+        // 用来映射数据列表和界面
+        MomentViewModel momentViewModel = new ViewModelProvider(this).get(MomentViewModel.class);
+        momentViewModel.getDataList().observe(getViewLifecycleOwner(), momentModels -> {
+            // 当ViewModel内部对象数据变化时，更新界面
+            adapter.updateDataList(momentModels);
         });
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // 执行你的刷新逻辑
-//                refreshData();
-//                init();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+        // 下拉刷新
+        swipeRefreshLayout.setOnRefreshListener(this::init);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
-        getMomentListCallback = new SimpleCallback<List<MomentModel>>() {
+        // HTTP请求列表数据后监听
+        momentListRequestCallback = new SimpleCallback<List<MomentModel>>() {
             @Override
             public void onUiSuccess(List<MomentModel> listResponseDTO) {
-                Log.i("request Momenttt", "here" );
-                MomentListItemAdapter adapter = new MomentListItemAdapter(listResponseDTO);
-                recyclerView.setAdapter(adapter);
-                Log.i("request Momenttt", "okok" );
+                if (currentPage == 0) {
+                    momentViewModel.initDataList(listResponseDTO);
+                } else {
+                    momentViewModel.updateDataList(listResponseDTO);
+                }
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onUiFailure(int code, String msg) {
-                Log.e("request Momenttt Error", "not ok :"+msg);
+                Log.e("request Momenttt Error", "not ok :" + msg);
+                swipeRefreshLayout.setRefreshing(false);
             }
         };
 
+        // 上拉加载
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                assert layoutManager != null;
+                int totalItemCount = layoutManager.getItemCount();
+                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+
+                if (lastVisibleItem >= (totalItemCount - 1)) {
+                    // 触发加载更多数据的逻辑
+                    swipeRefreshLayout.setRefreshing(true);
+                    Handler handler = new Handler();
+                    // 这里是延迟1秒后执行的代码
+                    handler.postDelayed(() -> {
+                        loadMoreData();
+                    }, 800);
+                }
+            }
+        });
+
+        addButton.setOnClickListener(e -> {
+            dialog.show();
+        });
+
+        bindDialogEvent();
     }
 
     private void init() {
+        currentPage = 0;
+        getMomentList(currentPage, pageSize);
 
-        List<MomentModel> dataList = new ArrayList<>();
-        int index = new Random().nextInt(100);
-        dataList.add(new MomentModel("刘备" + index, "Good Time", "https://picx.zhimg.com/v2-a256ec037bb09a417a038bf9c25b55d9_xl.jpg?source=32738c0c"));
-        dataList.add(new MomentModel("关羽", "星巴克（Starbucks）星倍醇 经典浓郁228ml*12罐 浓咖啡饮料礼盒", "https://pic1.zhimg.com/v2-aa9eccbcaa96420f62747af65c98a636_xl.jpg?source=32738c0c"));
-        dataList.add(new MomentModel("张飞", "因为人有冲天之志，非运不能自通。", "https://picx.zhimg.com/v2-2dab68d599f556d36876b674b4dff2ef_xl.jpg?source=32738c0c"));
-        dataList.add(new MomentModel("刘备" + index, "Good Time", "https://picx.zhimg.com/v2-a256ec037bb09a417a038bf9c25b55d9_xl.jpg?source=32738c0c"));
-        dataList.add(new MomentModel("关羽", "星巴克（Starbucks）星倍醇 经典浓郁228ml*12罐 浓咖啡饮料礼盒", "https://pic1.zhimg.com/v2-aa9eccbcaa96420f62747af65c98a636_xl.jpg?source=32738c0c"));
-        dataList.add(new MomentModel("张飞", "因为人有冲天之志，非运不能自通。", "https://picx.zhimg.com/v2-2dab68d599f556d36876b674b4dff2ef_xl.jpg?source=32738c0c"));
-        dataList.add(new MomentModel("刘备" + index, "Good Time", "https://picx.zhimg.com/v2-a256ec037bb09a417a038bf9c25b55d9_xl.jpg?source=32738c0c"));
-        dataList.add(new MomentModel("关羽", "星巴克（Starbucks）星倍醇 经典浓郁228ml*12罐 浓咖啡饮料礼盒", "https://pic1.zhimg.com/v2-aa9eccbcaa96420f62747af65c98a636_xl.jpg?source=32738c0c"));
-        dataList.add(new MomentModel("张飞", "因为人有冲天之志，非运不能自通。", "https://picx.zhimg.com/v2-2dab68d599f556d36876b674b4dff2ef_xl.jpg?source=32738c0c"));
-        dataList.add(new MomentModel("刘备" + index, "Good Time", "https://picx.zhimg.com/v2-a256ec037bb09a417a038bf9c25b55d9_xl.jpg?source=32738c0c"));
-        dataList.add(new MomentModel("关羽", "星巴克（Starbucks）星倍醇 经典浓郁228ml*12罐 浓咖啡饮料礼盒", "https://pic1.zhimg.com/v2-aa9eccbcaa96420f62747af65c98a636_xl.jpg?source=32738c0c"));
-        dataList.add(new MomentModel("张飞", "因为人有冲天之志，非运不能自通。", "https://picx.zhimg.com/v2-2dab68d599f556d36876b674b4dff2ef_xl.jpg?source=32738c0c"));
-        MomentListItemAdapter adapter = new MomentListItemAdapter(dataList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerView.setAdapter(adapter);
     }
 
-
-    public static String formatDateTime(String dateTimeString) {
-        // 创建一个DateTimeFormatter用于解析ISO 8601格式的字符串
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-
-        // 使用formatter将字符串解析为LocalDateTime对象
-        LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
-        return formatDateTimeRelativeToNow(dateTime);
+    private void loadMoreData() {
+        currentPage++;
+        getMomentList(currentPage, pageSize);
     }
 
-    public static String formatDateTimeRelativeToNow(LocalDateTime t) {
-        LocalDateTime now = LocalDateTime.now();
+    private void getMomentList(int page, int size) {
+        MomentService.Instance().recentMoments(page, size, momentListRequestCallback);
+    }
 
-        long daysDiff = ChronoUnit.DAYS.between(t, now);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM-dd HH:mm");
-        DateTimeFormatter dateYearFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private void createMoment(String content) {
+        MomentService.Instance().createMoment(content, null, null);
+    }
 
-        if (daysDiff == 0) {
-            // 同一天
-            return t.format(formatter);
-        } else if (daysDiff == 1) {
-            // 昨天
-            return "昨天 " + t.format(formatter);
-        } else if (daysDiff == 2) {
-            // 前天
-            return "前天 " + t.format(formatter);
-        } else if (daysDiff > 2) {
-            // 更早，但不是去年
-            if (t.getYear() == now.getYear()) {
-                return t.format(dateFormatter);
-            } else {
-                // 去年或更早
-                return t.format(dateYearFormatter);
+    private void bindDialog() {
+        // 实例化Dialog，使用Theme.AppCompat.Dialog.Alert，这样它会显示为一个标准的对话框样式
+        dialog = new Dialog(this.requireContext(), R.style.Theme_AppCompat_Dialog_Alert);
+        // 设置Dialog的ContentView为你定义的布局
+        dialog.setContentView(R.layout.main_fragment_moment_add_dialog); // 注意替换为你的布局文件ID
+    }
+
+    private void bindDialogEvent() {
+        EditText momentText = dialog.findViewById(R.id.moment_new_moment_text);
+        Button submitButton = dialog.findViewById(R.id.submit_new_moment);
+
+        momentText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
-        }
 
-        // 注意：理论上，daysDiff 应该是非负的，因为我们是从过去到现在比较。
-        // 但为了代码的健壮性，这里仍然保留了对负值的检查（尽管它不会执行）。
-        return "未知日期";
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                submitButton.setEnabled(!s.toString().isEmpty());
+                submitButton.setBackgroundTintList(s.toString().isEmpty() ? ContextCompat.getColorStateList(requireActivity(), R.color.gray) : ContextCompat.getColorStateList(requireActivity(), R.color.colorPrimary));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+        });
+        submitButton.setOnClickListener(e -> {
+            swipeRefreshLayout.setRefreshing(true);
+            createMoment(momentText.getText().toString());
+            Handler handler = new Handler();
+            // 这里是延迟1秒后执行的代码
+            handler.postDelayed(this::init, 1500);
+            dialog.hide();
+        });
     }
-
 }

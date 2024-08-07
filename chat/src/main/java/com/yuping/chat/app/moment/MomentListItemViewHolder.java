@@ -14,13 +14,15 @@ public class MomentListItemViewHolder extends RecyclerView.ViewHolder {
     ImageView imageViewAvatar;
     TextView textViewNickname;
     TextView textViewContent;
-    HorizontalScrollView horizontalScrollView;
+    TextView textUpdateTime;
+
 
     public MomentListItemViewHolder(View itemView) {
         super(itemView);
         imageViewAvatar = itemView.findViewById(R.id.moment_avatar);
         textViewNickname = itemView.findViewById(R.id.moment_nickname);
         textViewContent = itemView.findViewById(R.id.moment_content);
+        textUpdateTime = itemView.findViewById(R.id.moment_update_time);
     }
 
 }

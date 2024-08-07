@@ -1,8 +1,6 @@
 package com.yuping.chat.app.moment;
 
-import java.time.LocalDateTime;
-
-public class MomentModel {
+public class MomentModel extends Object {
     private String uid;
     private String displayName;
     private String avatar;
@@ -11,16 +9,36 @@ public class MomentModel {
     private Long momentId;
     private String dateTime;
     private String updateDateTime;
-
+    private Integer likeCount;
+    private Boolean isLike;
+    private Boolean isSelf;
 
     public MomentModel() {
 
     }
 
-    public MomentModel(String displayName, String content, String avatar){
+    public MomentModel(String displayName, String content, String avatar) {
         this.displayName = displayName;
         this.avatar = avatar;
         this.content = content;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            if (this == obj) return true; // 检查是否为同一对象
+            if (obj == null || getClass() != obj.getClass()) return false; // 检查是否为null或不同类型
+
+            MomentModel m = (MomentModel) obj;
+            return m.getMomentId().equals(this.getMomentId());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return this.momentId.hashCode();
     }
 
     public String getUid() {
@@ -87,19 +105,28 @@ public class MomentModel {
         this.updateDateTime = updateDateTime;
     }
 
-//    public LocalDateTime getDateTime() {
-//        return dateTime;
-//    }
-//
-//    public void setDateTime(LocalDateTime dateTime) {
-//        this.dateTime = dateTime;
-//    }
-//
-//    public LocalDateTime getUpdateDateTime() {
-//        return updateDateTime;
-//    }
-//
-//    public void setUpdateDateTime(LocalDateTime updateDateTime) {
-//        this.updateDateTime = updateDateTime;
-//    }
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public Boolean getLike() {
+        return isLike;
+    }
+
+    public void setLike(Boolean like) {
+        isLike = like;
+    }
+
+    public Boolean getSelf() {
+        return isSelf;
+    }
+
+    public void setSelf(Boolean self) {
+        isSelf = self;
+    }
+
 }

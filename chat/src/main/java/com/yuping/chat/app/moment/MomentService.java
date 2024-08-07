@@ -8,7 +8,6 @@ import java.util.Map;
 
 import cn.wildfire.chat.kit.net.OKHttpHelper;
 import cn.wildfire.chat.kit.net.SimpleCallback;
-import cn.wildfire.chat.kit.net.base.ResultWrapper;
 import cn.wildfire.chat.kit.net.base.StatusResult;
 
 public class MomentService {
@@ -19,11 +18,11 @@ public class MomentService {
         return Instance;
     }
 
-    public void recentMoments(SimpleCallback<List<MomentModel>> callback) {
+    public void recentMoments(int page, int size, SimpleCallback<List<MomentModel>> callback) {
         String url = AppService.APP_SERVER_ADDRESS + "/moment/recentMoments";
         Map<String, String> params = new HashMap<>();
-        params.put("page", String.valueOf(0));
-        params.put("size", String.valueOf(10));
+        params.put("page", String.valueOf(page));
+        params.put("size", String.valueOf(size));
         OKHttpHelper.get(url, params, callback);
     }
 

@@ -7,25 +7,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="16dp"
-        android:background="@android:color/white">
+        android:background="@color/white"
+        android:padding="16dp">
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/moment_new_moment_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="输入文本..."
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:hint="写动态..."
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray2" />
 
         <Button
-            android:id="@+id/submitButton"
+            android:id="@+id/submit_new_moment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发布"
-            android:layout_alignParentRight="true"
+            android:layout_below="@id/moment_new_moment_text"
             android:layout_alignParentEnd="true"
-            android:layout_below="@id/editText"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="发布" />
+
 
     </RelativeLayout>
 
