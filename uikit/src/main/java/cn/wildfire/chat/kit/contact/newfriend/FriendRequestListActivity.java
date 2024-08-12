@@ -24,10 +24,10 @@ public class FriendRequestListActivity extends WfcBaseActivity {
         return R.layout.fragment_container_activity;
     }
 
-    @Override
-    protected int menu() {
-        return R.menu.contact_friend_request;
-    }
+//    @Override
+//    protected int menu() {
+//        return R.menu.contact_friend_request;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

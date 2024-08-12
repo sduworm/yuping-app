@@ -7,12 +7,12 @@
     <string name="set_conversation_to_top">置顶聊天</string>
 
     <!--联系人-->
-    <string name="new_friend">新的朋友</string>
+    <string name="new_friend">新的好友</string>
     <string name="group_chat">群聊</string>
 
     <!--新的朋友-->
-    <string name="add_friend">添加朋友</string>
-    <string name="no_recommend_friend">还没有推荐的朋友</string>
+    <string name="add_friend">添加好友</string>
+    <string name="no_recommend_friend">没有收到好友申请</string>
 
     <!--搜索用户-->
     <string name="user_no_found">该用户不存在</string>

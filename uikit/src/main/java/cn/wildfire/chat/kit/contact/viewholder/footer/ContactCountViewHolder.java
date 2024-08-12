@@ -31,9 +31,9 @@ public class ContactCountViewHolder extends FooterViewHolder<ContactCountFooterV
     public void onBind(ContactCountFooterValue contactCountFooterValue) {
         int count = adapter.getContactCount();
         if (count == 0) {
-            countTextView.setText("没有联系人");
+            countTextView.setText("没有好友");
         } else {
-            countTextView.setText(count + "位联系人");
+            countTextView.setText(count + "位好友");
         }
     }
 }

@@ -336,14 +336,14 @@ public class MainActivity extends WfcBaseActivity implements ViewPager.OnPageCha
         ConversationListFragment conversationListFragment = new ConversationListFragment();
         contactListFragment = new ContactListFragment();
         MomentFragment momentFragment = new MomentFragment();
-        BottleFragment bottleFragment   =   new BottleFragment();
+        BottleFragment bottleFragment = new BottleFragment();
         MeFragment meFragment = new MeFragment();
         mFragmentList.add(bottleFragment);
         mFragmentList.add(momentFragment);
         mFragmentList.add(conversationListFragment);
         mFragmentList.add(contactListFragment);
-
         mFragmentList.add(meFragment);
+
         contentViewPager.setAdapter(new HomeFragmentPagerAdapter(getSupportFragmentManager(), mFragmentList));
         contentViewPager.addOnPageChangeListener(this);
 
@@ -487,7 +487,6 @@ public class MainActivity extends WfcBaseActivity implements ViewPager.OnPageCha
             default:
                 break;
         }
-        contactListFragment.showQuickIndexBar(position == 2);
     }
 
     @Override

@@ -33,7 +33,7 @@
                 android:id="@+id/add_contact"
                 android:icon="@mipmap/ic_add"
                 android:orderInCategory="101"
-                android:title="添加朋友"
+                android:title="添加好友"
                 app:iconTint="@color/colorPrimary" />
             <item
                 android:id="@+id/scan_qrcode"

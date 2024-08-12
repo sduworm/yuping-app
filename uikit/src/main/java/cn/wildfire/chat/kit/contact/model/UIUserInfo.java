@@ -127,7 +127,7 @@ public class UIUserInfo {
             if (isFavUser) {
                 UIUserInfo uiUserInfo = uiUserInfos.get(0);
                 uiUserInfo.setShowCategory(true);
-                uiUserInfo.setCategory("星标朋友");
+                uiUserInfo.setCategory("已关注");
             } else {
                 String preIndexLetter = null;
                 for (UIUserInfo info : uiUserInfos) {

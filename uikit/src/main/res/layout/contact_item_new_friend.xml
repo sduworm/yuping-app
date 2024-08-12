@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:singleLine="true"
-                android:text="对方请求添加你为朋友"
+                android:text="对方请求添加你为好友"
                 android:textColor="@color/gray11"
                 android:textSize="12sp" />
 

@@ -64,7 +64,7 @@ public class Config {
     /**
      * 组织通讯录服务地址，如果没有部署，可以设置为null
      */
-    public static String ORG_SERVER_ADDRESS/*请仔细阅读上面的注释*/ = "https://org.wildfirechat.cn";
+    public static String ORG_SERVER_ADDRESS/*请仔细阅读上面的注释*/ = null; //"https://org.wildfirechat.cn";
 
     /**
      * 发送日志命令，当发送此文本消息时，会把协议栈日志发送到当前会话中，为空时关闭此功能。
@@ -99,5 +99,5 @@ public class Config {
     public static boolean ENABLE_AUDIO_MESSAGE_AMPLIFICATION = true;
 
     // 语音消息音量增大倍数
-    public static int AUDIO_MESSAGE_AMPLIFICATION_FACTOR = 3;
+    public static int AUDIO_MESSAGE_AMPLIFICATION_FACTOR = 5;
 }

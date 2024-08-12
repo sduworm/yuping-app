@@ -116,7 +116,7 @@
             android:label="群列表" />
         <activity
             android:name="cn.wildfire.chat.kit.contact.newfriend.FriendRequestListActivity"
-            android:label="好友请求" />
+            android:label="好友申请" />
         <activity
             android:name="cn.wildfire.chat.kit.contact.newfriend.SearchUserActivity"
             android:label="搜索用户" />
