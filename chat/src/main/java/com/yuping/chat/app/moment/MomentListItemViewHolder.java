@@ -1,7 +1,6 @@
 package com.yuping.chat.app.moment;
 
 import android.view.View;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 

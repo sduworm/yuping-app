@@ -30,7 +30,7 @@ import cn.wildfire.chat.kit.net.SimpleCallback;
 
 
 public class MomentFragment extends Fragment {
-    private final int pageSize = 10;
+    private final static int PAGE_SIZE = 10;
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
     FloatingActionButton addButton;
@@ -114,16 +114,12 @@ public class MomentFragment extends Fragment {
                     swipeRefreshLayout.setRefreshing(true);
                     Handler handler = new Handler();
                     // 这里是延迟1秒后执行的代码
-                    handler.postDelayed(() -> {
-                        loadMoreData();
-                    }, 800);
+                    handler.postDelayed(() -> loadMoreData(), 800);
                 }
             }
         });
 
-        addButton.setOnClickListener(e -> {
-            dialog.show();
-        });
+        addButton.setOnClickListener(e -> dialog.show());
 
         bindDialogEvent();
     }
@@ -131,16 +127,16 @@ public class MomentFragment extends Fragment {
     private void init() {
         recyclerView.smoothScrollToPosition(0); // 平滑回到顶部
         currentPage = 0;
-        getMomentList(currentPage, pageSize);
+        getMomentList(currentPage);
     }
 
     private void loadMoreData() {
         currentPage++;
-        getMomentList(currentPage, pageSize);
+        getMomentList(currentPage);
     }
 
-    private void getMomentList(int page, int size) {
-        MomentService.Instance().recentMoments(page, size, momentListRequestCallback);
+    private void getMomentList(int page) {
+        MomentService.Instance().recentMoments(page, PAGE_SIZE, momentListRequestCallback);
     }
 
     private void createMoment(String content) {
@@ -151,7 +147,7 @@ public class MomentFragment extends Fragment {
         // 实例化Dialog，使用Theme.AppCompat.Dialog.Alert，这样它会显示为一个标准的对话框样式
         dialog = new Dialog(this.requireContext(), R.style.Theme_AppCompat_Dialog_Alert);
         // 设置Dialog的ContentView为你定义的布局
-        dialog.setContentView(R.layout.main_fragment_moment_add_dialog); // 注意替换为你的布局文件ID
+        dialog.setContentView(R.layout.fragment_moment_add_dialog); // 注意替换为你的布局文件ID
     }
 
     private void bindDialogEvent() {

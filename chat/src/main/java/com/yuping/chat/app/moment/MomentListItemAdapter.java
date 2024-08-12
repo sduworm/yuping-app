@@ -36,7 +36,7 @@ public class MomentListItemAdapter extends RecyclerView.Adapter<MomentListItemVi
     @NonNull
     @Override
     public MomentListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_fragment_moment_listitem, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_moment_listitem, parent, false);
         return new MomentListItemViewHolder(view);
     }
 

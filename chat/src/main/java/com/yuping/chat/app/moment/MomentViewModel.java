@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class MomentViewModel extends ViewModel {
 
     // 使用MutableLiveData来包装数据列表
-    private MutableLiveData<List<MomentModel>> dataList = new MutableLiveData<>();
+    private final MutableLiveData<List<MomentModel>> dataList = new MutableLiveData<>();
 
     // 构造器私有，防止外部直接创建ViewModel实例
     private MomentViewModel() {

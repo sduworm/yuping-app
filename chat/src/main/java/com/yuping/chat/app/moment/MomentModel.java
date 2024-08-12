@@ -1,6 +1,6 @@
 package com.yuping.chat.app.moment;
 
-public class MomentModel extends Object {
+public class MomentModel {
     private String uid;
     private String displayName;
     private String avatar;

@@ -44,7 +44,7 @@ public class SplashActivity extends AppCompatActivity {
         id = sharedPreferences.getString("id", null);
         token = sharedPreferences.getString("token", null);
 
-        new Handler().postDelayed(this::showNextScreen, 1000);
+        new Handler().postDelayed(this::showNextScreen, 1500);
     }
 
     private void showNextScreen() {
