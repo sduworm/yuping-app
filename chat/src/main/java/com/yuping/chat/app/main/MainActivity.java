@@ -37,6 +37,7 @@ import com.king.zxing.Intents;
 import com.yuping.chat.R;
 import com.yuping.chat.app.bottle.BottleFragment;
 import com.yuping.chat.app.moment.MomentFragment;
+import com.yuping.chat.app.myself.MyselfFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -337,12 +338,16 @@ public class MainActivity extends WfcBaseActivity implements ViewPager.OnPageCha
         contactListFragment = new ContactListFragment();
         MomentFragment momentFragment = new MomentFragment();
         BottleFragment bottleFragment = new BottleFragment();
-        MeFragment meFragment = new MeFragment();
+        MyselfFragment myselfFragment = new MyselfFragment();
+//        MeFragment meFragment = new MeFragment();
+
         mFragmentList.add(bottleFragment);
         mFragmentList.add(momentFragment);
         mFragmentList.add(conversationListFragment);
         mFragmentList.add(contactListFragment);
-        mFragmentList.add(meFragment);
+        mFragmentList.add(myselfFragment);
+//        mFragmentList.add(meFragment);
+
 
         contentViewPager.setAdapter(new HomeFragmentPagerAdapter(getSupportFragmentManager(), mFragmentList));
         contentViewPager.addOnPageChangeListener(this);

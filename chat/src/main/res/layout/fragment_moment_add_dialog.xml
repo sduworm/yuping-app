@@ -14,6 +14,7 @@
             android:id="@+id/moment_new_moment_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:inputType="textMultiLine"
             android:lines="6"
             android:minLines="6"

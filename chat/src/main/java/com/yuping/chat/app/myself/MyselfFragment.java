@@ -2,7 +2,7 @@
  * Copyright (c) 2024 BottleDestiny. All rights reserved.
  */
 
-package com.yuping.chat.app.main;
+package com.yuping.chat.app.myself;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,11 +26,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.yuping.chat.R;
+import com.yuping.chat.app.setting.AccountActivity;
+import com.yuping.chat.app.setting.SettingActivity;
 
 import java.util.List;
 
-import com.yuping.chat.app.setting.AccountActivity;
-import com.yuping.chat.app.setting.SettingActivity;
 import cn.wildfire.chat.kit.conversation.file.FileRecordListActivity;
 import cn.wildfire.chat.kit.favorite.FavoriteListActivity;
 import cn.wildfire.chat.kit.settings.MessageNotifySettingActivity;
@@ -38,24 +39,19 @@ import cn.wildfire.chat.kit.third.utils.UIUtils;
 import cn.wildfire.chat.kit.user.UserInfoActivity;
 import cn.wildfire.chat.kit.user.UserViewModel;
 import cn.wildfire.chat.kit.widget.OptionItemView;
-import com.yuping.chat.R;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
 
-public class MeFragment extends Fragment {
+public class MyselfFragment extends Fragment {
 
     LinearLayout meLinearLayout;
     ImageView portraitImageView;
-    TextView nameTextView;
-    TextView accountTextView;
+    TextView displayNameTextView;
+    TextView nameIdTextView;
 
-    OptionItemView notificationOptionItem;
+    OptionItemView bottlesOptionItem;
 
     OptionItemView settingOptionItem;
-
-    OptionItemView fileRecordOptionItem;
-
-    OptionItemView conversationOptionItem;
 
     private UserViewModel userViewModel;
     private UserInfo userInfo;
@@ -79,33 +75,27 @@ public class MeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.main_fragment_me, container, false);
+        View view = inflater.inflate(R.layout.main_fragment_myself, container, false);
         bindViews(view);
         bindEvents(view);
         init();
         return view;
     }
 
-    private void bindEvents(View view) {
-        view.findViewById(R.id.meLinearLayout).setOnClickListener(v -> showMyInfo());
-        view.findViewById(R.id.favOptionItemView).setOnClickListener(v -> fav());
-        view.findViewById(R.id.accountOptionItemView).setOnClickListener(v -> account());
-        view.findViewById(R.id.fileRecordOptionItemView).setOnClickListener(v -> files());
-        view.findViewById(R.id.themeOptionItemView).setOnClickListener(v -> theme());
-        view.findViewById(R.id.settingOptionItemView).setOnClickListener(v -> setting());
-        view.findViewById(R.id.notificationOptionItemView).setOnClickListener(v -> msgNotifySetting());
-        view.findViewById(R.id.conversationOptionItemView).setOnClickListener(v -> conversationSetting());
+    private void bindViews(View view) {
+        meLinearLayout = view.findViewById(R.id.myselfLinearLayout);
+        portraitImageView = view.findViewById(R.id.myselfAvatarImageView);
+        displayNameTextView = view.findViewById(R.id.myselfDisplayName);
+        nameIdTextView = view.findViewById(R.id.myselfNameIdTextView);
+        bottlesOptionItem = view.findViewById(R.id.myselfBottlesOptionItemView);
+        settingOptionItem = view.findViewById(R.id.myselfSettingOptionItemView);
     }
 
-    private void bindViews(View view) {
-        meLinearLayout = view.findViewById(R.id.meLinearLayout);
-        portraitImageView = view.findViewById(R.id.portraitImageView);
-        nameTextView = view.findViewById(R.id.nameTextView);
-        accountTextView = view.findViewById(R.id.accountTextView);
-        notificationOptionItem = view.findViewById(R.id.notificationOptionItemView);
-        settingOptionItem = view.findViewById(R.id.settingOptionItemView);
-        conversationOptionItem = view.findViewById(R.id.conversationOptionItemView);
-        fileRecordOptionItem = view.findViewById(R.id.fileRecordOptionItemView);
+    private void bindEvents(View view) {
+        view.findViewById(R.id.myselfLinearLayout).setOnClickListener(v -> showMyInfo());
+        view.findViewById(R.id.myselfAccountOptionItemView).setOnClickListener(v -> account());
+        view.findViewById(R.id.myselfSettingOptionItemView).setOnClickListener(v -> setting());
+        view.findViewById(R.id.myselfBottlesOptionItemView).setOnClickListener(v -> msgNotifySetting());
     }
 
     private void updateUserInfo(UserInfo userInfo) {
@@ -116,8 +106,8 @@ public class MeFragment extends Fragment {
             .load(userInfo.portrait)
             .apply(options)
             .into(portraitImageView);
-        nameTextView.setText(userInfo.displayName);
-        accountTextView.setText("账号: " + userInfo.name);
+        displayNameTextView.setText(userInfo.displayName);
+        nameIdTextView.setText("账号: " + userInfo.name);
     }
 
     private void init() {
@@ -130,11 +120,6 @@ public class MeFragment extends Fragment {
                 }
             });
         userViewModel.userInfoLiveData().observeForever(userInfoLiveDataObserver);
-        if (ChatManager.Instance().isCommercialServer()) {
-            fileRecordOptionItem.setVisibility(View.VISIBLE);
-        } else {
-            fileRecordOptionItem.setVisibility(View.GONE);
-        }
     }
 
     @Override

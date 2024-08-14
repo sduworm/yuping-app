@@ -121,9 +121,9 @@ public class UserInfoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.user_info_fragment, container, false);
-        bindViews(view);
-        bindEvents(view);
-        init();
+//        bindViews(view);
+//        bindEvents(view);
+//        init();
         return view;
     }
 

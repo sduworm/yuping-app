@@ -125,7 +125,8 @@
             android:label="邀请好友" />
         <activity
             android:name="cn.wildfire.chat.kit.user.UserInfoActivity"
-            android:label="用户信息" />
+            android:label="用户信息"
+            android:theme="@style/YupingAppTheme" />
         <activity
             android:name="cn.wildfire.chat.kit.settings.PrivacySettingActivity"
             android:label="隐私设置" />

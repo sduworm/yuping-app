@@ -15,7 +15,7 @@ import cn.wildfire.chat.kit.contact.model.ContactCountFooterValue;
 
 public class ContactCountViewHolder extends FooterViewHolder<ContactCountFooterValue> {
     TextView countTextView;
-    private UserListAdapter adapter;
+    private final UserListAdapter adapter;
 
     public ContactCountViewHolder(Fragment fragment, UserListAdapter adapter, View itemView) {
         super(fragment, adapter, itemView);
