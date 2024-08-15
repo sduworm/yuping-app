@@ -126,7 +126,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/groupAliasTextView"
+                                android:id="@+id/companyTextView"
                                 android:layout_width="300dp"
                                 android:layout_height="wrap_content"
                                 android:maxLines="3"
@@ -134,121 +134,121 @@
                                 android:textColor="@color/gray16"
                                 android:textSize="16sp" />
 
-
                         </LinearLayout>
 
-
                     </LinearLayout>
-
 
                     <View style="@style/Line" />
 
                     <cn.wildfire.chat.kit.widget.OptionItemView
-                        android:id="@+id/aliasOptionItemView"
-                        style="@style/OptionItem"
-                        android:background="@drawable/selector_common_item"
-                        app:show_arrow_indicator="true"
-                        app:title="备注" />
-
-                    <cn.wildfire.chat.kit.widget.OptionItemView
+                        android:id="@+id/editItemView"
                         style="@style/OptionItem"
                         android:background="@drawable/selector_common_item"
                         app:show_arrow_indicator="true"
                         app:title="编辑个人资料" />
 
-
-                    <View style="@style/Line" />
-
                     <LinearLayout
-                        android:id="@+id/jubaoButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="vertical"
-                        tools:visibility="visible">
-
-                        <View style="@style/Line" />
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:background="@drawable/selector_common_item">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:background="@color/white"
-                                android:drawablePadding="6dp"
-                                android:text="举报"
-                                android:textColor="@color/blue3"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                        </FrameLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/addBlackButton"
+                        android:id="@+id/notSelfOptions"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         tools:visibility="visible">
 
-                        <View style="@style/Line" />
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:background="@drawable/selector_common_item">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:background="@color/white"
-                                android:drawablePadding="6dp"
-                                android:text="拉黑"
-                                android:textColor="@color/blue3"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                        </FrameLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/chatButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:orientation="vertical"
-                        tools:visibility="visible">
+                        <cn.wildfire.chat.kit.widget.OptionItemView
+                            android:id="@+id/aliasOptionItemView"
+                            style="@style/OptionItem"
+                            android:background="@drawable/selector_common_item"
+                            app:show_arrow_indicator="true"
+                            app:title="备注" />
 
                         <View style="@style/Line" />
 
-                        <FrameLayout
+                        <LinearLayout
+                            android:id="@+id/addDenunciationButton"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:background="@drawable/selector_common_item">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="vertical"
+                            tools:visibility="visible">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:background="@color/white"
-                                android:drawableLeft="@mipmap/ic_start_message"
-                                android:drawablePadding="6dp"
-                                android:text="聊天"
-                                android:textColor="@color/blue3"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
+                            <View style="@style/Line" />
 
-                        </FrameLayout>
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:background="@drawable/selector_common_item">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:drawablePadding="6dp"
+                                    android:text="举报"
+                                    android:textColor="@color/blue3"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/addBlackButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            tools:visibility="visible">
+
+                            <View style="@style/Line" />
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:background="@drawable/selector_common_item">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:drawablePadding="6dp"
+                                    android:text="拉黑"
+                                    android:textColor="@color/blue3"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/chatButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="vertical"
+                            tools:visibility="visible">
+
+                            <View style="@style/Line" />
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:background="@drawable/selector_common_item">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:drawableLeft="@mipmap/ic_start_message"
+                                    android:drawablePadding="6dp"
+                                    android:text="聊天"
+                                    android:textColor="@color/blue3"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                            </FrameLayout>
+                        </LinearLayout>
                     </LinearLayout>
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
 
         </LinearLayout>
     </ScrollView>
@@ -279,22 +279,36 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/buttonLayout"
+        android:id="@+id/bottomOptions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
-        android:paddingVertical="5dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingVertical="5dp">
 
         <Button
+            android:id="@+id/unfollowButton"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_weight="1"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="20dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/lightColorPrimary"
             android:text="取消关注"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            tools:visibility="gone" />
+
+        <Button
+            android:id="@+id/followButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="关注"
             android:textColor="@color/white"
             android:textSize="18sp"
             tools:visibility="visible" />
@@ -303,16 +317,27 @@
             android:id="@+id/inviteButton"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_weight="1"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="40dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/colorPrimary"
             android:text="加好友"
             android:textColor="@color/white"
             android:textSize="18sp"
             tools:visibility="visible" />
 
-
+        <Button
+            android:id="@+id/uninviteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="40dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/lightColorPrimary"
+            android:text="删除好友"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            tools:visibility="gone" />
 
     </LinearLayout>
 

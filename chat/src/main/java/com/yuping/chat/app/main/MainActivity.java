@@ -295,7 +295,7 @@ public class MainActivity extends WfcBaseActivity implements ViewPager.OnPageCha
     private void showUnreadFriendRequestBadgeView(int count) {
         if (unreadFriendRequestBadgeView == null) {
             BottomNavigationMenuView bottomNavigationMenuView = ((BottomNavigationMenuView) bottomNavigationView.getChildAt(0));
-            View view = bottomNavigationMenuView.getChildAt(1);
+            View view = bottomNavigationMenuView.getChildAt(3);
             unreadFriendRequestBadgeView = new QBadgeView(MainActivity.this);
             unreadFriendRequestBadgeView.bindTarget(view);
         }

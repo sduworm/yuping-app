@@ -184,9 +184,4 @@ public class MyselfFragment extends Fragment {
         Intent intent = new Intent(getActivity(), MessageNotifySettingActivity.class);
         startActivity(intent);
     }
-
-    void conversationSetting() {
-        // TODO
-        // 设置背景等
-    }
 }
