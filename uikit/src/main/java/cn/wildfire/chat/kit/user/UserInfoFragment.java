@@ -4,13 +4,9 @@
 
 package cn.wildfire.chat.kit.user;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -25,52 +21,34 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.snackbar.Snackbar;
 import com.lqr.imagepicker.ImagePicker;
 import com.lqr.imagepicker.bean.ImageItem;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
-import cn.wildfire.chat.kit.Config;
 import cn.wildfire.chat.kit.R;
-import cn.wildfire.chat.kit.WfcIntent;
-import cn.wildfire.chat.kit.WfcScheme;
-import cn.wildfire.chat.kit.WfcUIKit;
 import cn.wildfire.chat.kit.common.OperateResult;
 import cn.wildfire.chat.kit.contact.ContactViewModel;
-import cn.wildfire.chat.kit.contact.OrganizationServiceViewModel;
 import cn.wildfire.chat.kit.contact.newfriend.InviteFriendActivity;
 import cn.wildfire.chat.kit.conversation.ConversationActivity;
-import cn.wildfire.chat.kit.group.GroupMemberMessageHistoryActivity;
 import cn.wildfire.chat.kit.mm.MMPreviewActivity;
-import cn.wildfire.chat.kit.organization.OrganizationMemberListActivity;
-import cn.wildfire.chat.kit.organization.model.EmployeeEx;
-import cn.wildfire.chat.kit.organization.model.Organization;
-import cn.wildfire.chat.kit.organization.model.OrganizationRelationship;
-import cn.wildfire.chat.kit.qrcode.QRCodeActivity;
 import cn.wildfire.chat.kit.third.utils.ImageUtils;
 import cn.wildfire.chat.kit.third.utils.UIUtils;
 import cn.wildfire.chat.kit.widget.OptionItemView;
 import cn.wildfirechat.model.Conversation;
-import cn.wildfirechat.model.DomainInfo;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
-import cn.wildfirechat.utils.WfcUtils;
 
 public class UserInfoFragment extends Fragment {
     ImageView portraitImageView;
     ImageView portraitBigImageView;
+    ImageView customToolbarEditIcon;
 
     TextView titleTextView;
     TextView companyTextView;
@@ -90,10 +68,7 @@ public class UserInfoFragment extends Fragment {
     private UserInfo userInfo;
     private String groupId;
     private UserViewModel userViewModel;
-    private OrganizationServiceViewModel organizationServiceViewModel;
     private ContactViewModel contactViewModel;
-
-    private List<Organization> organizations;
 
     public static UserInfoFragment newInstance(UserInfo userInfo, String groupId) {
         UserInfoFragment fragment = new UserInfoFragment();
@@ -128,6 +103,7 @@ public class UserInfoFragment extends Fragment {
     private void bindViews(View view) {
         portraitImageView = view.findViewById(R.id.portraitImageView);
         portraitBigImageView = view.findViewById(R.id.portraitBigImageView);
+        customToolbarEditIcon = view.findViewById(R.id.customToolbarEditIcon);
         titleTextView = view.findViewById(R.id.titleTextView);
         accountTextView = view.findViewById(R.id.accountTextView);
         companyTextView = view.findViewById(R.id.companyTextView);
@@ -145,16 +121,17 @@ public class UserInfoFragment extends Fragment {
     }
 
     private void bindEvents(View view) {
-        view.findViewById(R.id.portraitImageView).setOnClickListener(_v -> portrait());
-        view.findViewById(R.id.chatButton).setOnClickListener(_v -> chat());
-        view.findViewById(R.id.inviteButton).setOnClickListener(_v -> invite());
-        view.findViewById(R.id.aliasOptionItemView).setOnClickListener(_v -> alias());
+        portraitImageView.setOnClickListener(_v -> portrait());
+        chatButton.setOnClickListener(_v -> chat());
+        inviteButton.setOnClickListener(_v -> invite());
+        uninviteButton.setOnClickListener(_v -> deleteFriend(view));
+        aliasOptionItemView.setOnClickListener(_v -> alias());
     }
 
     private void init() {
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         contactViewModel = ViewModelProviders.of(this).get(ContactViewModel.class);
-        organizationServiceViewModel = new ViewModelProvider(this).get(OrganizationServiceViewModel.class);
+
         String selfUid = userViewModel.getUserId();
 
         if (selfUid.equals(userInfo.uid)) {
@@ -162,11 +139,14 @@ public class UserInfoFragment extends Fragment {
             notSelfOptions.setVisibility(View.GONE);
             bottomOptions.setVisibility(View.GONE);
             editItemView.setVisibility(View.VISIBLE);
+            customToolbarEditIcon.setVisibility(View.VISIBLE);
         } else if (contactViewModel.isFriend(userInfo.uid)) {
             // friend
             notSelfOptions.setVisibility(View.VISIBLE);
             bottomOptions.setVisibility(View.VISIBLE);
             editItemView.setVisibility(View.GONE);
+            customToolbarEditIcon.setVisibility(View.GONE);
+
             inviteButton.setVisibility(View.GONE);
             uninviteButton.setVisibility(View.VISIBLE);
             aliasOptionItemView.setVisibility(View.VISIBLE);
@@ -176,6 +156,8 @@ public class UserInfoFragment extends Fragment {
             notSelfOptions.setVisibility(View.VISIBLE);
             bottomOptions.setVisibility(View.VISIBLE);
             editItemView.setVisibility(View.GONE);
+            customToolbarEditIcon.setVisibility(View.GONE);
+
             uninviteButton.setVisibility(View.GONE);
             inviteButton.setVisibility(View.VISIBLE);
             aliasOptionItemView.setVisibility(View.GONE);
@@ -243,8 +225,6 @@ public class UserInfoFragment extends Fragment {
         }
     }
 
-    private static final int REQUEST_CODE_PICK_IMAGE = 100;
-
     void portrait() {
         if (!TextUtils.isEmpty(userInfo.portrait)) {
             MMPreviewActivity.previewImage(getContext(), userInfo.portrait);
@@ -252,6 +232,105 @@ public class UserInfoFragment extends Fragment {
             Toast.makeText(getActivity(), "用户未设置头像", Toast.LENGTH_SHORT).show();
         }
     }
+
+    void deleteFriend(View view){
+        Snackbar snackbar = Snackbar.make(view, "确定删除好友吗？", Snackbar.LENGTH_LONG);
+
+        snackbar.setAction("取消", v ->  snackbar.dismiss());
+
+        snackbar.setAction("确定", v -> contactViewModel.deleteFriend(userInfo.uid).observe(
+                requireActivity(), booleanOperateResult -> {
+                    if (booleanOperateResult.isSuccess()) {
+                        Intent intent = new Intent(UIUtils.getPackageName() + ".main");
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getActivity(), "delete friend error " + booleanOperateResult.getErrorCode(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ));
+
+        snackbar.show();
+    }
+//
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        ContactViewModel contactViewModel = ViewModelProviders.of(this).get(ContactViewModel.class);
+//
+//
+//        else if (item.getItemId() == R.id.addFriend) {
+//            Intent intent = new Intent(this, InviteFriendActivity.class);
+//            intent.putExtra("userInfo", userInfo);
+//            startActivity(intent);
+//            return true;
+//        }
+//        else if (item.getItemId() == R.id.addBlacklist) {
+//            contactViewModel.setBlacklist(userInfo.uid, true).observe(
+//                    this, booleanOperateResult -> {
+//                        if (booleanOperateResult.isSuccess()) {
+//                            Toast.makeText(this, "设置成功", Toast.LENGTH_SHORT).show();
+//                            invalidateOptionsMenu();
+//                        } else {
+//                            Toast.makeText(this, "add blacklist error " + booleanOperateResult.getErrorCode(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//            );
+//            return true;
+//        }
+//        else if (item.getItemId() == R.id.removeBlacklist) {
+//            contactViewModel.setBlacklist(userInfo.uid, false).observe(
+//                    this, booleanOperateResult -> {
+//                        if (booleanOperateResult.isSuccess()) {
+//                            Toast.makeText(this, "设置成功", Toast.LENGTH_SHORT).show();
+//                            invalidateOptionsMenu();
+//                        } else {
+//                            Toast.makeText(this, "remove blacklist error " + booleanOperateResult.getErrorCode(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//            );
+//            return true;
+//        }
+//        else if (item.getItemId() == R.id.setAlias) {
+//            Intent intent = new Intent(this, SetAliasActivity.class);
+//            intent.putExtra("userId", userInfo.uid);
+//            startActivity(intent);
+//            return true;
+//        }
+//        else if (item.getItemId() == R.id.setFav) {
+//            contactViewModel.setFav(userInfo.uid, true).observe(
+//                    this, booleanOperateResult -> {
+//                        if (booleanOperateResult.isSuccess()) {
+//                            Toast.makeText(this, "设置成功", Toast.LENGTH_SHORT).show();
+//                            invalidateOptionsMenu();
+//                        } else {
+//                            Toast.makeText(this, "set fav error " + booleanOperateResult.getErrorCode(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//            );
+//            return true;
+//
+//        }
+//        else if (item.getItemId() == R.id.removeFav) {
+//            contactViewModel.setFav(userInfo.uid, false).observe(
+//                    this, booleanOperateResult -> {
+//                        if (booleanOperateResult.isSuccess()) {
+//                            Toast.makeText(this, "设置成功", Toast.LENGTH_SHORT).show();
+//                            invalidateOptionsMenu();
+//                        } else {
+//                            Toast.makeText(this, "remove fav error " + booleanOperateResult.getErrorCode(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//            );
+//            return true;
+//        }
+//        else if (item.getItemId() == R.id.setName) {
+//            Intent intent = new Intent(this, SetNameActivity.class);
+//            intent.putExtra("userInfo", userInfo);
+//            startActivity(intent);
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+
+    private static final int REQUEST_CODE_PICK_IMAGE = 100;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

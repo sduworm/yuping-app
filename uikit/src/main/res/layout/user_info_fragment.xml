@@ -167,7 +167,7 @@
                             android:id="@+id/addDenunciationButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="20dp"
                             android:orientation="vertical"
                             tools:visibility="visible">
 
@@ -269,6 +269,7 @@
             app:tint="@color/gray5" />
 
         <ImageView
+            android:id="@+id/customToolbarEditIcon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
