@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.webkit.CookieManager;
@@ -18,36 +17,49 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.yuping.chat.app.AppService;
+import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.yuping.chat.R;
 import com.yuping.chat.app.main.SplashActivity;
-import com.yuping.chat.app.misc.DiagnoseActivity;
+
 import cn.wildfire.chat.kit.ChatManagerHolder;
 import cn.wildfire.chat.kit.Config;
 import cn.wildfire.chat.kit.WfcBaseActivity;
 import cn.wildfire.chat.kit.net.OKHttpHelper;
-import cn.wildfire.chat.kit.net.SimpleCallback;
-import cn.wildfire.chat.kit.settings.PrivacySettingActivity;
-import cn.wildfire.chat.kit.widget.OptionItemView;
-import com.yuping.chat.R;
+import cn.wildfire.chat.kit.settings.blacklist.BlacklistListActivity;
+import cn.wildfirechat.remote.ChatManager;
+import cn.wildfirechat.remote.GeneralCallback;
 
 public class SettingActivity extends WfcBaseActivity {
     private final int REQUEST_IGNORE_BATTERY_CODE = 100;
-    OptionItemView diagnoseOptionItemView;
-
+    private SwitchMaterial switchAddFriendNeedVerify;
 
     protected void bindEvents() {
         super.bindEvents();
         findViewById(R.id.exitOptionItemView).setOnClickListener(v -> exit());
-        findViewById(R.id.privacySettingOptionItemView).setOnClickListener(v -> privacySetting());
-        findViewById(R.id.diagnoseOptionItemView).setOnClickListener(v -> diagnose());
-        findViewById(R.id.uploadLogOptionItemView).setOnClickListener(v -> uploadLog());
         findViewById(R.id.batteryOptionItemView).setOnClickListener(v -> batteryOptimize());
-        findViewById(R.id.aboutOptionItemView).setOnClickListener(v -> about());
+        findViewById(cn.wildfire.chat.kit.R.id.blacklistOptionItemView).setOnClickListener(v -> blacklistSettings());
+
+        this.switchAddFriendNeedVerify.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ChatManager.Instance().setAddFriendNeedVerify(isChecked, new GeneralCallback() {
+                @Override
+                public void onSuccess() {
+                    // do nothing
+                }
+
+                @Override
+                public void onFail(int errorCode) {
+                    if (!isFinishing()) {
+                        Toast.makeText(SettingActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        });
     }
 
     protected void bindViews() {
         super.bindViews();
-        diagnoseOptionItemView = findViewById(R.id.diagnoseOptionItemView);
+        this.switchAddFriendNeedVerify = findViewById(cn.wildfire.chat.kit.R.id.switchAddFriendNeedVerify);
+        this.switchAddFriendNeedVerify.setChecked(ChatManager.Instance().isAddFriendNeedVerify());
     }
 
     @Override
@@ -67,6 +79,11 @@ public class SettingActivity extends WfcBaseActivity {
                 super.onActivityResult(requestCode, resultCode, data);
                 break;
         }
+    }
+
+    void blacklistSettings() {
+        Intent intent = new Intent(this, BlacklistListActivity.class);
+        startActivity(intent);
     }
 
     void exit() {
@@ -90,58 +107,22 @@ public class SettingActivity extends WfcBaseActivity {
         finish();
     }
 
-    void privacySetting() {
-        Intent intent = new Intent(this, PrivacySettingActivity.class);
-        startActivity(intent);
-    }
-
-    void diagnose() {
-        Intent intent = new Intent(this, DiagnoseActivity.class);
-        startActivity(intent);
-    }
-
-    void uploadLog() {
-        AppService.Instance().uploadLog(new SimpleCallback<String>() {
-            @Override
-            public void onUiSuccess(String path) {
-                if (!isFinishing()) {
-                    Toast.makeText(SettingActivity.this, "上传日志" + path + "成功", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onUiFailure(int code, String msg) {
-                if (!isFinishing()) {
-                    Toast.makeText(SettingActivity.this, "上传日志失败" + code + msg, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
     @SuppressLint("BatteryLife")
     void batteryOptimize() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            try {
-                Intent intent = new Intent();
-                String packageName = getPackageName();
-                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-                if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                    intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                    intent.setData(Uri.parse("package:" + packageName));
-                    startActivityForResult(intent, REQUEST_IGNORE_BATTERY_CODE);
-                } else {
-                    Toast.makeText(this, "已忽略电池优化，允许野火IM后台运行，更能保证消息的实时性", Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            Intent intent = new Intent();
+            String packageName = getPackageName();
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + packageName));
+                startActivityForResult(intent, REQUEST_IGNORE_BATTERY_CODE);
+            } else {
+                Toast.makeText(this, "已忽略电池优化，请允许遇瓶APP后台运行，更能保证消息的实时性", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(this, "系统不支持", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    void about() {
-        Intent intent = new Intent(this, AboutActivity.class);
-        startActivity(intent);
-    }
 }

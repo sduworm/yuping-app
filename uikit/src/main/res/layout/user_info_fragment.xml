@@ -20,6 +20,7 @@
                 android:id="@+id/portraitBigImageView"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
+                android:layout_marginTop="-20dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/yuping_test_avatar_w" />
 
@@ -61,7 +62,7 @@
                         android:shadowDy="2"
                         android:shadowRadius="1"
                         android:singleLine="true"
-                        android:text="绝对Pony"
+                        android:text="遇瓶"
                         android:textColor="@color/white"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -115,6 +116,45 @@
                                 android:text="ID: 110000"
                                 android:textColor="@color/gray8"
                                 android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/alreadyFriendTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:singleLine="true"
+                                android:text="好友"
+                                android:textColor="@color/white"
+                                android:background="@drawable/shape_round_3"
+                                android:backgroundTint="@color/green4"
+                                android:layout_marginLeft="6dp"
+                                android:paddingHorizontal="4dp"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/alreadyFollowTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:singleLine="true"
+                                android:text="已关注"
+                                android:textColor="@color/white"
+                                android:background="@drawable/shape_round_3"
+                                android:backgroundTint="@color/yellow2"
+                                android:layout_marginLeft="6dp"
+                                android:paddingHorizontal="4dp"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/alreadyBlackTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:singleLine="true"
+                                android:text="已拉黑"
+                                android:textColor="@color/white"
+                                android:background="@drawable/shape_round_3"
+                                android:backgroundTint="@color/gray0"
+                                android:layout_marginLeft="6dp"
+                                android:paddingHorizontal="4dp"
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
@@ -206,6 +246,7 @@
                                 android:background="@drawable/selector_common_item">
 
                                 <TextView
+                                    android:id="@+id/addBlackButtonText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"

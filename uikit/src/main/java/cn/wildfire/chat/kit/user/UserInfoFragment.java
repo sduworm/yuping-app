@@ -53,15 +53,21 @@ public class UserInfoFragment extends Fragment {
     TextView titleTextView;
     TextView companyTextView;
     TextView accountTextView;
+    TextView addBlackButtonText;
+    TextView alreadyFriendTextView;
+    TextView alreadyFollowTextView;
+    TextView alreadyBlackTextView;
 
     View chatButton;
     View bottomOptions;
     View notSelfOptions;
+    View addBlackButton;
 
     Button inviteButton;
     Button uninviteButton;
     Button followButton;
     Button unfollowButton;
+
     OptionItemView aliasOptionItemView;
     OptionItemView editItemView;
 
@@ -97,6 +103,7 @@ public class UserInfoFragment extends Fragment {
         bindViews(view);
         bindEvents(view);
         init();
+        initUserInfo();
         return view;
     }
 
@@ -112,10 +119,15 @@ public class UserInfoFragment extends Fragment {
         uninviteButton = view.findViewById(R.id.uninviteButton);
         followButton = view.findViewById(R.id.followButton);
         unfollowButton = view.findViewById(R.id.unfollowButton);
+        addBlackButton = view.findViewById(R.id.addBlackButton);
+        addBlackButtonText = view.findViewById(R.id.addBlackButtonText);
         aliasOptionItemView = view.findViewById(R.id.aliasOptionItemView);
         editItemView = view.findViewById(R.id.editItemView);
         notSelfOptions = view.findViewById(R.id.notSelfOptions);
         bottomOptions = view.findViewById(R.id.bottomOptions);
+        alreadyFriendTextView = view.findViewById(R.id.alreadyFriendTextView);
+        alreadyFollowTextView = view.findViewById(R.id.alreadyFollowTextView);
+        alreadyBlackTextView = view.findViewById(R.id.alreadyBlackTextView);
 
 
     }
@@ -123,9 +135,16 @@ public class UserInfoFragment extends Fragment {
     private void bindEvents(View view) {
         portraitImageView.setOnClickListener(_v -> portrait());
         chatButton.setOnClickListener(_v -> chat());
+        aliasOptionItemView.setOnClickListener(_v -> alias());
+
         inviteButton.setOnClickListener(_v -> invite());
         uninviteButton.setOnClickListener(_v -> deleteFriend(view));
-        aliasOptionItemView.setOnClickListener(_v -> alias());
+
+        followButton.setOnClickListener(_v -> addFollow());
+        unfollowButton.setOnClickListener(_v -> deleteFollow(view));
+
+        addBlackButton.setOnClickListener(_v -> setBlack(view));
+
     }
 
     private void init() {
@@ -133,6 +152,15 @@ public class UserInfoFragment extends Fragment {
         contactViewModel = ViewModelProviders.of(this).get(ContactViewModel.class);
 
         String selfUid = userViewModel.getUserId();
+
+        notSelfOptions.setVisibility(View.VISIBLE);
+        bottomOptions.setVisibility(View.VISIBLE);
+        editItemView.setVisibility(View.GONE);
+        customToolbarEditIcon.setVisibility(View.GONE);
+
+        alreadyFriendTextView.setVisibility(View.GONE);
+        alreadyFollowTextView.setVisibility(View.GONE);
+        alreadyBlackTextView.setVisibility(View.GONE);
 
         if (selfUid.equals(userInfo.uid)) {
             // self
@@ -142,31 +170,34 @@ public class UserInfoFragment extends Fragment {
             customToolbarEditIcon.setVisibility(View.VISIBLE);
         } else if (contactViewModel.isFriend(userInfo.uid)) {
             // friend
-            notSelfOptions.setVisibility(View.VISIBLE);
-            bottomOptions.setVisibility(View.VISIBLE);
-            editItemView.setVisibility(View.GONE);
-            customToolbarEditIcon.setVisibility(View.GONE);
-
+            alreadyFriendTextView.setVisibility(View.VISIBLE);
             inviteButton.setVisibility(View.GONE);
             uninviteButton.setVisibility(View.VISIBLE);
             aliasOptionItemView.setVisibility(View.VISIBLE);
 
         } else {
             // stranger
-            notSelfOptions.setVisibility(View.VISIBLE);
-            bottomOptions.setVisibility(View.VISIBLE);
-            editItemView.setVisibility(View.GONE);
-            customToolbarEditIcon.setVisibility(View.GONE);
-
             uninviteButton.setVisibility(View.GONE);
             inviteButton.setVisibility(View.VISIBLE);
             aliasOptionItemView.setVisibility(View.GONE);
         }
 
+        alreadyFollowTextView.setVisibility(contactViewModel.isFav(userInfo.uid) ? View.VISIBLE : View.GONE);
         unfollowButton.setVisibility(contactViewModel.isFav(userInfo.uid) ? View.VISIBLE : View.GONE);
         followButton.setVisibility(contactViewModel.isFav(userInfo.uid) ? View.GONE : View.VISIBLE);
 
+        if (contactViewModel.isBlacklisted(userInfo.uid)) {
+            addBlackButtonText.setText("取消拉黑");
+            alreadyBlackTextView.setVisibility(View.VISIBLE);
+        } else {
+            addBlackButtonText.setText("拉黑");
+        }
+
+    }
+
+    void initUserInfo(){
         setUserInfo(userInfo);
+
         userViewModel.userInfoLiveData().observe(getViewLifecycleOwner(), userInfos -> {
             for (UserInfo info : userInfos) {
                 if (userInfo.uid.equals(info.uid)) {
@@ -176,6 +207,7 @@ public class UserInfoFragment extends Fragment {
                 }
             }
         });
+
         userViewModel.getUserInfo(userInfo.uid, true);
 
     }
@@ -200,8 +232,6 @@ public class UserInfoFragment extends Fragment {
         } else {
             companyTextView.setText("没有个性签名");
         }
-
-
     }
 
     void chat() {
@@ -233,10 +263,10 @@ public class UserInfoFragment extends Fragment {
         }
     }
 
-    void deleteFriend(View view){
+    void deleteFriend(View view) {
         Snackbar snackbar = Snackbar.make(view, "确定删除好友吗？", Snackbar.LENGTH_LONG);
 
-        snackbar.setAction("取消", v ->  snackbar.dismiss());
+        snackbar.setAction("取消", v -> snackbar.dismiss());
 
         snackbar.setAction("确定", v -> contactViewModel.deleteFriend(userInfo.uid).observe(
                 requireActivity(), booleanOperateResult -> {
@@ -251,84 +281,51 @@ public class UserInfoFragment extends Fragment {
 
         snackbar.show();
     }
-//
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        ContactViewModel contactViewModel = ViewModelProviders.of(this).get(ContactViewModel.class);
-//
-//
-//        else if (item.getItemId() == R.id.addFriend) {
-//            Intent intent = new Intent(this, InviteFriendActivity.class);
-//            intent.putExtra("userInfo", userInfo);
-//            startActivity(intent);
-//            return true;
-//        }
-//        else if (item.getItemId() == R.id.addBlacklist) {
-//            contactViewModel.setBlacklist(userInfo.uid, true).observe(
-//                    this, booleanOperateResult -> {
-//                        if (booleanOperateResult.isSuccess()) {
-//                            Toast.makeText(this, "设置成功", Toast.LENGTH_SHORT).show();
-//                            invalidateOptionsMenu();
-//                        } else {
-//                            Toast.makeText(this, "add blacklist error " + booleanOperateResult.getErrorCode(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//            );
-//            return true;
-//        }
-//        else if (item.getItemId() == R.id.removeBlacklist) {
-//            contactViewModel.setBlacklist(userInfo.uid, false).observe(
-//                    this, booleanOperateResult -> {
-//                        if (booleanOperateResult.isSuccess()) {
-//                            Toast.makeText(this, "设置成功", Toast.LENGTH_SHORT).show();
-//                            invalidateOptionsMenu();
-//                        } else {
-//                            Toast.makeText(this, "remove blacklist error " + booleanOperateResult.getErrorCode(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//            );
-//            return true;
-//        }
-//        else if (item.getItemId() == R.id.setAlias) {
-//            Intent intent = new Intent(this, SetAliasActivity.class);
-//            intent.putExtra("userId", userInfo.uid);
-//            startActivity(intent);
-//            return true;
-//        }
-//        else if (item.getItemId() == R.id.setFav) {
-//            contactViewModel.setFav(userInfo.uid, true).observe(
-//                    this, booleanOperateResult -> {
-//                        if (booleanOperateResult.isSuccess()) {
-//                            Toast.makeText(this, "设置成功", Toast.LENGTH_SHORT).show();
-//                            invalidateOptionsMenu();
-//                        } else {
-//                            Toast.makeText(this, "set fav error " + booleanOperateResult.getErrorCode(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//            );
-//            return true;
-//
-//        }
-//        else if (item.getItemId() == R.id.removeFav) {
-//            contactViewModel.setFav(userInfo.uid, false).observe(
-//                    this, booleanOperateResult -> {
-//                        if (booleanOperateResult.isSuccess()) {
-//                            Toast.makeText(this, "设置成功", Toast.LENGTH_SHORT).show();
-//                            invalidateOptionsMenu();
-//                        } else {
-//                            Toast.makeText(this, "remove fav error " + booleanOperateResult.getErrorCode(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//            );
-//            return true;
-//        }
-//        else if (item.getItemId() == R.id.setName) {
-//            Intent intent = new Intent(this, SetNameActivity.class);
-//            intent.putExtra("userInfo", userInfo);
-//            startActivity(intent);
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+
+    void addFollow() {
+        contactViewModel.setFav(userInfo.uid, true).observe(
+                requireActivity(), booleanOperateResult -> {
+                    if (booleanOperateResult.isSuccess()) {
+                        Toast.makeText(getActivity(), "已关注", Toast.LENGTH_SHORT).show();
+                        init();
+                    } else {
+                        Toast.makeText(getActivity(), "set fav error " + booleanOperateResult.getErrorCode(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+    }
+
+    void setBlack(View view) {
+        boolean isCurrentBlack = contactViewModel.isBlacklisted(userInfo.uid);
+
+        Snackbar snackbar = Snackbar.make(view, isCurrentBlack? "取消拉黑？" : "确定拉黑？", Snackbar.LENGTH_LONG);
+        snackbar.setAction("确定", v ->         contactViewModel.setBlacklist(userInfo.uid, !isCurrentBlack).observe(
+                requireActivity(), booleanOperateResult -> {
+                    if (booleanOperateResult.isSuccess()) {
+                        Toast.makeText(getActivity(), isCurrentBlack ? "已取消拉黑" : "已拉黑，将不会再收到此人消息", Toast.LENGTH_SHORT).show();
+                        init();
+                    } else {
+                        Toast.makeText(getActivity(), "add blacklist error " + booleanOperateResult.getErrorCode(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ));
+        snackbar.show();
+    }
+
+    void deleteFollow(View view) {
+        Snackbar snackbar = Snackbar.make(view, "确定不再关注？", Snackbar.LENGTH_LONG);
+        snackbar.setAction("确定", v -> contactViewModel.setFav(userInfo.uid, false).observe(
+                requireActivity(), booleanOperateResult -> {
+                    if (booleanOperateResult.isSuccess()) {
+                        Toast.makeText(getActivity(), "设置成功", Toast.LENGTH_SHORT).show();
+                        init();
+                    } else {
+                        Toast.makeText(getActivity(), "remove fav error " + booleanOperateResult.getErrorCode(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ));
+        snackbar.show();
+    }
 
     private static final int REQUEST_CODE_PICK_IMAGE = 100;
 
