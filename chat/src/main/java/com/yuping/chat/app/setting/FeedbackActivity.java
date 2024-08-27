@@ -1,24 +1,29 @@
 package com.yuping.chat.app.setting;
 
+import android.content.Intent;
 import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yuping.chat.R;
 
 import cn.wildfire.chat.kit.WfcBaseActivity;
+import cn.wildfire.chat.kit.contact.newfriend.SearchUserActivity;
 import cn.wildfire.chat.kit.widget.SimpleTextWatcher;
-
 
 public class FeedbackActivity extends WfcBaseActivity {
     EditText suggestionText;
+    TextView backdoor;
 
     private MenuItem menuItem;
 
     protected void bindViews() {
         super.bindViews();
+        backdoor =findViewById(R.id.backdoor);
+        backdoor.setOnClickListener(e -> showSearchIntent());
         suggestionText = findViewById(R.id.suggestionText);
         suggestionText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
@@ -26,7 +31,6 @@ public class FeedbackActivity extends WfcBaseActivity {
                 onTextChange();
             }
         });
-
     }
 
     @Override
@@ -52,6 +56,11 @@ public class FeedbackActivity extends WfcBaseActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    void showSearchIntent() {
+        Intent intent = new Intent(this, SearchUserActivity.class);
+        startActivity(intent);
     }
 
     void onTextChange() {

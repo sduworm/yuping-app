@@ -77,7 +77,7 @@ public class InviteFriendActivity extends WfcBaseActivity {
                         Toast.makeText(InviteFriendActivity.this, "好友邀请已发送", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
-                        Toast.makeText(InviteFriendActivity.this, "添加好友失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(InviteFriendActivity.this, "已发送过好友申请，请耐心等待对方回应，勿重复发送", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
