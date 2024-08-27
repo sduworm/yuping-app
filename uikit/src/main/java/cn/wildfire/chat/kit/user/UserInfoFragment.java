@@ -168,13 +168,18 @@ public class UserInfoFragment extends Fragment {
             bottomOptions.setVisibility(View.GONE);
             editItemView.setVisibility(View.VISIBLE);
             customToolbarEditIcon.setVisibility(View.VISIBLE);
+        } else if (userInfo.name.startsWith("admin")) {
+            // 客服号
+            notSelfOptions.setVisibility(View.GONE);
+            bottomOptions.setVisibility(View.GONE);
+            editItemView.setVisibility(View.GONE);
+            customToolbarEditIcon.setVisibility(View.GONE);
         } else if (contactViewModel.isFriend(userInfo.uid)) {
             // friend
             alreadyFriendTextView.setVisibility(View.VISIBLE);
             inviteButton.setVisibility(View.GONE);
             uninviteButton.setVisibility(View.VISIBLE);
             aliasOptionItemView.setVisibility(View.VISIBLE);
-
         } else {
             // stranger
             uninviteButton.setVisibility(View.GONE);
@@ -195,7 +200,7 @@ public class UserInfoFragment extends Fragment {
 
     }
 
-    void initUserInfo(){
+    void initUserInfo() {
         setUserInfo(userInfo);
 
         userViewModel.userInfoLiveData().observe(getViewLifecycleOwner(), userInfos -> {
@@ -298,8 +303,8 @@ public class UserInfoFragment extends Fragment {
     void setBlack(View view) {
         boolean isCurrentBlack = contactViewModel.isBlacklisted(userInfo.uid);
 
-        Snackbar snackbar = Snackbar.make(view, isCurrentBlack? "取消拉黑？" : "确定拉黑？", Snackbar.LENGTH_LONG);
-        snackbar.setAction("确定", v ->         contactViewModel.setBlacklist(userInfo.uid, !isCurrentBlack).observe(
+        Snackbar snackbar = Snackbar.make(view, isCurrentBlack ? "取消拉黑？" : "确定拉黑？", Snackbar.LENGTH_LONG);
+        snackbar.setAction("确定", v -> contactViewModel.setBlacklist(userInfo.uid, !isCurrentBlack).observe(
                 requireActivity(), booleanOperateResult -> {
                     if (booleanOperateResult.isSuccess()) {
                         Toast.makeText(getActivity(), isCurrentBlack ? "已取消拉黑" : "已拉黑，将不会再收到此人消息", Toast.LENGTH_SHORT).show();

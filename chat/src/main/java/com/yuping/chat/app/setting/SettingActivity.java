@@ -37,7 +37,8 @@ public class SettingActivity extends WfcBaseActivity {
         super.bindEvents();
         findViewById(R.id.exitOptionItemView).setOnClickListener(v -> exit());
         findViewById(R.id.batteryOptionItemView).setOnClickListener(v -> batteryOptimize());
-        findViewById(cn.wildfire.chat.kit.R.id.blacklistOptionItemView).setOnClickListener(v -> blacklistSettings());
+        findViewById(R.id.blacklistOptionItemView).setOnClickListener(v -> blacklistSettings());
+        findViewById(R.id.suggestionOptionItemView).setOnClickListener(v -> feedbackSuggestion());
 
         this.switchAddFriendNeedVerify.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ChatManager.Instance().setAddFriendNeedVerify(isChecked, new GeneralCallback() {
@@ -83,6 +84,11 @@ public class SettingActivity extends WfcBaseActivity {
 
     void blacklistSettings() {
         Intent intent = new Intent(this, BlacklistListActivity.class);
+        startActivity(intent);
+    }
+
+    void feedbackSuggestion() {
+        Intent intent = new Intent(this, FeedbackActivity.class);
         startActivity(intent);
     }
 

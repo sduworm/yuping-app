@@ -112,6 +112,9 @@
         <activity
             android:name=".app.setting.ResetPasswordActivity"
             android:label="设置新密码" />
+        <activity
+            android:name=".app.setting.FeedbackActivity"
+            android:label="反馈建议" />
         <activity android:name=".app.setting.AccountActivity" />
         <activity
             android:name=".app.misc.DiagnoseActivity"

@@ -70,7 +70,7 @@
             android:background="@drawable/selector_common_item"
             android:clickable="true"
             app:show_arrow_indicator="true"
-            app:title="意见反馈" />
+            app:title="反馈建议" />
 
         <View style="@style/Line" />
 
