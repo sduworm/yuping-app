@@ -41,6 +41,7 @@ import cn.wildfire.chat.kit.mm.MMPreviewActivity;
 import cn.wildfire.chat.kit.third.utils.ImageUtils;
 import cn.wildfire.chat.kit.third.utils.UIUtils;
 import cn.wildfire.chat.kit.widget.OptionItemView;
+import cn.wildfirechat.client.ClientService;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
@@ -62,6 +63,7 @@ public class UserInfoFragment extends Fragment {
     View bottomOptions;
     View notSelfOptions;
     View addBlackButton;
+    View addDenunciationButton;
 
     Button inviteButton;
     Button uninviteButton;
@@ -120,6 +122,7 @@ public class UserInfoFragment extends Fragment {
         followButton = view.findViewById(R.id.followButton);
         unfollowButton = view.findViewById(R.id.unfollowButton);
         addBlackButton = view.findViewById(R.id.addBlackButton);
+        addDenunciationButton = view.findViewById(R.id.addDenunciationButton);
         addBlackButtonText = view.findViewById(R.id.addBlackButtonText);
         aliasOptionItemView = view.findViewById(R.id.aliasOptionItemView);
         editItemView = view.findViewById(R.id.editItemView);
@@ -144,6 +147,7 @@ public class UserInfoFragment extends Fragment {
         unfollowButton.setOnClickListener(_v -> deleteFollow(view));
 
         addBlackButton.setOnClickListener(_v -> setBlack(view));
+        addDenunciationButton.setOnClickListener(_v -> addDenunciation());
 
     }
 
@@ -315,6 +319,12 @@ public class UserInfoFragment extends Fragment {
                 }
         ));
         snackbar.show();
+    }
+    void addDenunciation() {
+        Intent intent = new Intent(getContext(), AddDenunciationActivity.class);
+        intent.putExtra("targetUid", userInfo.uid);
+        intent.putExtra("displayName", userInfo.displayName);
+        startActivity(intent);
     }
 
     void deleteFollow(View view) {

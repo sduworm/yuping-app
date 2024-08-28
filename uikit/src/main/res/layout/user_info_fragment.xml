@@ -199,7 +199,7 @@
                             style="@style/OptionItem"
                             android:background="@drawable/selector_common_item"
                             app:show_arrow_indicator="true"
-                            app:title="备注" />
+                            app:title="好友备注名" />
 
                         <View style="@style/Line" />
 

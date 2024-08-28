@@ -58,11 +58,15 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="cn.wildfire.chat.kit.user.SetAliasActivity"
-            android:label="设置好友备注"
+            android:label="设置好友备注名"
             android:screenOrientation="portrait" />
         <activity
             android:name="cn.wildfire.chat.kit.user.ChangeMyNameActivity"
             android:label="修改昵称"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="cn.wildfire.chat.kit.user.AddDenunciationActivity"
+            android:label="举报用户"
             android:screenOrientation="portrait" />
 
         <activity

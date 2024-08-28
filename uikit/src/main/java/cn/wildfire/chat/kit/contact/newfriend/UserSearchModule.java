@@ -73,7 +73,7 @@ public class UserSearchModule extends SearchableModule<UserInfo, UserViewHolder>
 
     @Override
     public String category() {
-        return this.domainInfo == null ? "找到的玩家" : "在 " + domainInfo.name + " 搜索用户";
+        return this.domainInfo == null ? "找到的用户" : "在 " + domainInfo.name + " 搜索用户";
     }
 
     @Override
