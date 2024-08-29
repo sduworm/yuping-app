@@ -31,6 +31,7 @@ import com.lqr.imagepicker.bean.ImageItem;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import cn.wildfire.chat.kit.R;
 import cn.wildfire.chat.kit.common.OperateResult;
@@ -50,9 +51,10 @@ public class UserInfoFragment extends Fragment {
     ImageView portraitImageView;
     ImageView portraitBigImageView;
     ImageView customToolbarEditIcon;
+    ImageView backBtn;
 
     TextView titleTextView;
-    TextView companyTextView;
+    TextView emailTextView;
     TextView accountTextView;
     TextView addBlackButtonText;
     TextView alreadyFriendTextView;
@@ -112,10 +114,11 @@ public class UserInfoFragment extends Fragment {
     private void bindViews(View view) {
         portraitImageView = view.findViewById(R.id.portraitImageView);
         portraitBigImageView = view.findViewById(R.id.portraitBigImageView);
+        backBtn = view.findViewById(R.id.backBtn);
         customToolbarEditIcon = view.findViewById(R.id.customToolbarEditIcon);
         titleTextView = view.findViewById(R.id.titleTextView);
         accountTextView = view.findViewById(R.id.accountTextView);
-        companyTextView = view.findViewById(R.id.companyTextView);
+        emailTextView = view.findViewById(R.id.emailTextView);
         chatButton = view.findViewById(R.id.chatButton);
         inviteButton = view.findViewById(R.id.inviteButton);
         uninviteButton = view.findViewById(R.id.uninviteButton);
@@ -131,11 +134,10 @@ public class UserInfoFragment extends Fragment {
         alreadyFriendTextView = view.findViewById(R.id.alreadyFriendTextView);
         alreadyFollowTextView = view.findViewById(R.id.alreadyFollowTextView);
         alreadyBlackTextView = view.findViewById(R.id.alreadyBlackTextView);
-
-
     }
 
     private void bindEvents(View view) {
+        backBtn.setOnClickListener(_v -> requireActivity().finish());
         portraitImageView.setOnClickListener(_v -> portrait());
         chatButton.setOnClickListener(_v -> chat());
         aliasOptionItemView.setOnClickListener(_v -> alias());
@@ -148,6 +150,9 @@ public class UserInfoFragment extends Fragment {
 
         addBlackButton.setOnClickListener(_v -> setBlack(view));
         addDenunciationButton.setOnClickListener(_v -> addDenunciation());
+
+        customToolbarEditIcon.setOnClickListener(_v -> edit());
+        editItemView.setOnClickListener(_v -> edit());
 
     }
 
@@ -236,10 +241,10 @@ public class UserInfoFragment extends Fragment {
 
         accountTextView.setText("ID: " + userInfo.name);
 
-        if (!TextUtils.isEmpty(userInfo.company)) {
-            companyTextView.setText(userInfo.company);
+        if (!TextUtils.isEmpty(userInfo.email)) {
+            emailTextView.setText(userInfo.email);
         } else {
-            companyTextView.setText("没有个性签名");
+            emailTextView.setText("没有个性签名");
         }
     }
 
@@ -250,7 +255,11 @@ public class UserInfoFragment extends Fragment {
         startActivity(intent);
         getActivity().finish();
     }
-
+    void edit() {
+        Intent intent = new Intent(getActivity(), EditUserInfoActivity.class);
+        intent.putExtra("userInfo", userInfo);
+        startActivity(intent);
+    }
 
     void alias() {
         String selfUid = userViewModel.getUserId();
