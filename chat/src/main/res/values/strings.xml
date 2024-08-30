@@ -2,7 +2,7 @@
     <string name="app_name">遇瓶</string>
 
     <!--我-->
-    <string name="my_chat_account">账号:%1$s</string>
+    <string name="my_chat_account">ID:%1$s</string>
     <string name="setting">设置</string>
 
     <!--设置-->

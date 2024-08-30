@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="加我为好友时，需要验证"
-                android:textColor="@color/black1"
+                android:textColor="@color/black0"
                 android:textSize="18sp" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial

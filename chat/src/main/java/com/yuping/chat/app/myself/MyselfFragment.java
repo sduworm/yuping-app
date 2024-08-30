@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2024 BottleDestiny. All rights reserved.
- */
-
 package com.yuping.chat.app.myself;
 
 import android.content.Context;
@@ -23,8 +19,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.yuping.chat.R;
 import com.yuping.chat.app.setting.AccountActivity;
@@ -35,12 +29,11 @@ import java.util.List;
 import cn.wildfire.chat.kit.conversation.file.FileRecordListActivity;
 import cn.wildfire.chat.kit.favorite.FavoriteListActivity;
 import cn.wildfire.chat.kit.settings.MessageNotifySettingActivity;
-import cn.wildfire.chat.kit.third.utils.UIUtils;
+import cn.wildfire.chat.kit.user.EditUserInfoActivity;
 import cn.wildfire.chat.kit.user.UserInfoActivity;
 import cn.wildfire.chat.kit.user.UserViewModel;
 import cn.wildfire.chat.kit.widget.OptionItemView;
 import cn.wildfirechat.model.UserInfo;
-import cn.wildfirechat.remote.ChatManager;
 
 public class MyselfFragment extends Fragment {
 
@@ -50,7 +43,7 @@ public class MyselfFragment extends Fragment {
     TextView nameIdTextView;
 
     OptionItemView bottlesOptionItem;
-
+    OptionItemView editItemView;
     OptionItemView settingOptionItem;
 
     private UserViewModel userViewModel;
@@ -89,6 +82,7 @@ public class MyselfFragment extends Fragment {
         nameIdTextView = view.findViewById(R.id.myselfNameIdTextView);
         bottlesOptionItem = view.findViewById(R.id.myselfBottlesOptionItemView);
         settingOptionItem = view.findViewById(R.id.myselfSettingOptionItemView);
+        editItemView = view.findViewById(cn.wildfire.chat.kit.R.id.editItemView);
     }
 
     private void bindEvents(View view) {
@@ -96,18 +90,18 @@ public class MyselfFragment extends Fragment {
         view.findViewById(R.id.myselfAccountOptionItemView).setOnClickListener(v -> account());
         view.findViewById(R.id.myselfSettingOptionItemView).setOnClickListener(v -> setting());
         view.findViewById(R.id.myselfBottlesOptionItemView).setOnClickListener(v -> msgNotifySetting());
+        editItemView.setOnClickListener(_v -> edit());
     }
 
     private void updateUserInfo(UserInfo userInfo) {
         RequestOptions options = new RequestOptions()
-            .placeholder(R.mipmap.avatar_def)
-            .transforms(new CenterCrop(), new RoundedCorners(UIUtils.dip2Px(getContext(), 10)));
+            .placeholder(R.mipmap.avatar_def);
         Glide.with(this)
             .load(userInfo.portrait)
             .apply(options)
             .into(portraitImageView);
         displayNameTextView.setText(userInfo.displayName);
-        nameIdTextView.setText("账号: " + userInfo.name);
+        nameIdTextView.setText("ID: " + userInfo.name);
     }
 
     private void init() {
@@ -120,6 +114,11 @@ public class MyselfFragment extends Fragment {
                 }
             });
         userViewModel.userInfoLiveData().observeForever(userInfoLiveDataObserver);
+    }
+
+    void edit() {
+        Intent intent = new Intent(getActivity(), EditUserInfoActivity.class);
+        startActivity(intent);
     }
 
     @Override

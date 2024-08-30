@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2020 WildFireChat. All rights reserved.
- */
-
 package cn.wildfire.chat.kit.user;
 
 import android.app.Activity;
@@ -42,7 +38,6 @@ import cn.wildfire.chat.kit.mm.MMPreviewActivity;
 import cn.wildfire.chat.kit.third.utils.ImageUtils;
 import cn.wildfire.chat.kit.third.utils.UIUtils;
 import cn.wildfire.chat.kit.widget.OptionItemView;
-import cn.wildfirechat.client.ClientService;
 import cn.wildfirechat.model.Conversation;
 import cn.wildfirechat.model.UserInfo;
 import cn.wildfirechat.remote.ChatManager;
@@ -74,6 +69,7 @@ public class UserInfoFragment extends Fragment {
 
     OptionItemView aliasOptionItemView;
     OptionItemView editItemView;
+    OptionItemView editEmail;
 
     private UserInfo userInfo;
     private String groupId;
@@ -129,6 +125,7 @@ public class UserInfoFragment extends Fragment {
         addBlackButtonText = view.findViewById(R.id.addBlackButtonText);
         aliasOptionItemView = view.findViewById(R.id.aliasOptionItemView);
         editItemView = view.findViewById(R.id.editItemView);
+        editEmail = view.findViewById(R.id.editEmail);
         notSelfOptions = view.findViewById(R.id.notSelfOptions);
         bottomOptions = view.findViewById(R.id.bottomOptions);
         alreadyFriendTextView = view.findViewById(R.id.alreadyFriendTextView);
@@ -153,6 +150,7 @@ public class UserInfoFragment extends Fragment {
 
         customToolbarEditIcon.setOnClickListener(_v -> edit());
         editItemView.setOnClickListener(_v -> edit());
+        editEmail.setOnClickListener(_v -> editEmail());
 
     }
 
@@ -165,6 +163,7 @@ public class UserInfoFragment extends Fragment {
         notSelfOptions.setVisibility(View.VISIBLE);
         bottomOptions.setVisibility(View.VISIBLE);
         editItemView.setVisibility(View.GONE);
+        editEmail.setVisibility(View.GONE);
         customToolbarEditIcon.setVisibility(View.GONE);
 
         alreadyFriendTextView.setVisibility(View.GONE);
@@ -176,12 +175,14 @@ public class UserInfoFragment extends Fragment {
             notSelfOptions.setVisibility(View.GONE);
             bottomOptions.setVisibility(View.GONE);
             editItemView.setVisibility(View.VISIBLE);
+            editEmail.setVisibility(View.VISIBLE);
             customToolbarEditIcon.setVisibility(View.VISIBLE);
         } else if (userInfo.name.startsWith("admin")) {
             // 客服号
             notSelfOptions.setVisibility(View.GONE);
             bottomOptions.setVisibility(View.GONE);
             editItemView.setVisibility(View.GONE);
+            editEmail.setVisibility(View.GONE);
             customToolbarEditIcon.setVisibility(View.GONE);
         } else if (contactViewModel.isFriend(userInfo.uid)) {
             // friend
@@ -258,6 +259,11 @@ public class UserInfoFragment extends Fragment {
     }
     void edit() {
         Intent intent = new Intent(getActivity(), EditUserInfoActivity.class);
+        startActivity(intent);
+    }
+
+    void editEmail() {
+        Intent intent = new Intent(getActivity(), ChangeEmailActivity.class);
         startActivity(intent);
     }
 

@@ -80,6 +80,7 @@
             android:name=".app.main.MainActivity"
             android:exported="true"
             android:label="遇瓶"
+            android:theme="@style/YupingAppTheme"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="${applicationId}.main" />
