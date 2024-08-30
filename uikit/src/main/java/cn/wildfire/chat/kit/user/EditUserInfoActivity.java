@@ -42,6 +42,7 @@ public class EditUserInfoActivity extends WfcBaseActivity {
     TextView emailTextView;
 
     View editAvatar;
+    View emailView;
 
     OptionItemView displayName;
     OptionItemView gender;
@@ -69,15 +70,24 @@ public class EditUserInfoActivity extends WfcBaseActivity {
         nameId = findViewById(R.id.nameId);
         phone = findViewById(R.id.phone);
         editEmail = findViewById(R.id.editEmail);
+        emailView = findViewById(R.id.emailView);
 
         editAvatar.setOnClickListener(_v -> portrait());
         displayName.setOnClickListener(_v -> changeDisplayName());
+        editEmail.setOnClickListener(_v -> changeEmail());
+        emailView.setOnClickListener(_v -> changeEmail());
     }
 
     private void changeDisplayName() {
         Intent intent = new Intent(this, ChangeMyNameActivity.class);
         startActivity(intent);
     }
+
+    private void changeEmail() {
+        Intent intent = new Intent(this, ChangeEmailActivity.class);
+        startActivity(intent);
+    }
+
     void portrait() {
         String[] permissions;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

@@ -34,12 +34,6 @@ public class SetAliasActivity extends WfcBaseActivity {
     protected void bindViews() {
         super.bindViews();
         aliasEditText = findViewById(R.id.aliasEditText);
-        aliasEditText.addTextChangedListener(new SimpleTextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                onAliasEditTextChange();
-            }
-        });
     }
 
     @Override
@@ -69,7 +63,7 @@ public class SetAliasActivity extends WfcBaseActivity {
     @Override
     protected void afterMenus(Menu menu) {
         menuItem = menu.findItem(R.id.save);
-        menuItem.setEnabled(false);
+        menuItem.setEnabled(true);
     }
 
     @Override
@@ -79,10 +73,6 @@ public class SetAliasActivity extends WfcBaseActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    void onAliasEditTextChange() {
-        menuItem.setEnabled(aliasEditText.getText().toString().trim().length() > 0 ? true : false);
     }
 
     private void changeAlias() {

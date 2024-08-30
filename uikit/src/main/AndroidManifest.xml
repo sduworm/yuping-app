@@ -65,6 +65,10 @@
             android:label="修改昵称"
             android:screenOrientation="portrait" />
         <activity
+            android:name="cn.wildfire.chat.kit.user.ChangeEmailActivity"
+            android:label="个性签名"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="cn.wildfire.chat.kit.user.EditUserInfoActivity"
             android:label="个人信息"
             android:theme="@style/YupingAppTheme"/>

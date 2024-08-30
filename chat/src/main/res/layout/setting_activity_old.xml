@@ -78,7 +78,7 @@
             android:gravity="center"
             android:text="@string/exit"
             android:textColor="@color/black1"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
         <View style="@style/Line" />
     </LinearLayout>

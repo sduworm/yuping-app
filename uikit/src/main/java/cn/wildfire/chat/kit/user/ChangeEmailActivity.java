@@ -1,7 +1,5 @@
 package cn.wildfire.chat.kit.user;
 
-import static cn.wildfirechat.model.ModifyMyInfoType.Modify_DisplayName;
-
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.Menu;
@@ -10,7 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -19,15 +16,15 @@ import java.util.Collections;
 
 import cn.wildfire.chat.kit.R;
 import cn.wildfire.chat.kit.WfcBaseActivity;
-import cn.wildfire.chat.kit.common.OperateResult;
 import cn.wildfire.chat.kit.widget.SimpleTextWatcher;
 import cn.wildfirechat.model.ModifyMyInfoEntry;
+import cn.wildfirechat.model.ModifyMyInfoType;
 import cn.wildfirechat.model.UserInfo;
 
-public class ChangeMyNameActivity extends WfcBaseActivity {
+public class ChangeEmailActivity extends WfcBaseActivity {
 
     private MenuItem confirmMenuItem;
-    EditText nameEditText;
+    EditText emailEditText;
 
     private UserViewModel userViewModel;
     private UserInfo userInfo;
@@ -39,11 +36,11 @@ public class ChangeMyNameActivity extends WfcBaseActivity {
 
     protected void bindViews() {
         super.bindViews();
-        nameEditText = findViewById(R.id.nameEditText);
-        nameEditText.addTextChangedListener(new SimpleTextWatcher() {
+        emailEditText = findViewById(R.id.emailEditText);
+        emailEditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                inputNewName();
+                inputNewEmail();
             }
         });
     }
@@ -62,7 +59,7 @@ public class ChangeMyNameActivity extends WfcBaseActivity {
 
     @Override
     protected int contentLayout() {
-        return R.layout.user_change_my_name_activity;
+        return R.layout.user_change_email_activity;
     }
 
     @Override
@@ -79,7 +76,7 @@ public class ChangeMyNameActivity extends WfcBaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.save) {
-            changeMyName();
+            changeEmail();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -87,37 +84,34 @@ public class ChangeMyNameActivity extends WfcBaseActivity {
 
     private void initView() {
         if (userInfo != null) {
-            nameEditText.setText(userInfo.displayName);
+            emailEditText.setText(userInfo.email);
         }
-        nameEditText.setSelection(nameEditText.getText().toString().trim().length());
+        emailEditText.setSelection(emailEditText.getText().toString().trim().length());
     }
 
-    void inputNewName() {
+    void inputNewEmail() {
         if (confirmMenuItem != null) {
-            confirmMenuItem.setEnabled(!nameEditText.getText().toString().trim().isEmpty());
+            confirmMenuItem.setEnabled(!emailEditText.getText().toString().trim().isEmpty());
         }
     }
 
 
-    private void changeMyName() {
+    private void changeEmail() {
         MaterialDialog dialog = new MaterialDialog.Builder(this)
             .content("修改中...")
             .progress(true, 100)
             .build();
         dialog.show();
-        String nickName = nameEditText.getText().toString().trim();
-        ModifyMyInfoEntry entry = new ModifyMyInfoEntry(Modify_DisplayName, nickName);
-        userViewModel.modifyMyInfo(Collections.singletonList(entry)).observe(this, new Observer<OperateResult<Boolean>>() {
-            @Override
-            public void onChanged(@Nullable OperateResult<Boolean> booleanOperateResult) {
-                if (booleanOperateResult.isSuccess()) {
-                    Toast.makeText(ChangeMyNameActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ChangeMyNameActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
-                }
-                dialog.dismiss();
-                finish();
+        String email = emailEditText.getText().toString().trim();
+        ModifyMyInfoEntry entry = new ModifyMyInfoEntry(ModifyMyInfoType.Modify_Email, email);
+        userViewModel.modifyMyInfo(Collections.singletonList(entry)).observe(this, booleanOperateResult -> {
+            if (booleanOperateResult.isSuccess()) {
+                Toast.makeText(ChangeEmailActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(ChangeEmailActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
             }
+            dialog.dismiss();
+            finish();
         });
     }
 }

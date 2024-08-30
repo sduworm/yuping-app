@@ -240,6 +240,7 @@ public class UserInfoFragment extends Fragment {
         }
 
         accountTextView.setText("ID: " + userInfo.name);
+        aliasOptionItemView.setDesc(userInfo.friendAlias);
 
         if (!TextUtils.isEmpty(userInfo.email)) {
             emailTextView.setText(userInfo.email);
@@ -384,6 +385,6 @@ public class UserInfoFragment extends Fragment {
         Intent intent = new Intent(getActivity(), InviteFriendActivity.class);
         intent.putExtra("userInfo", userInfo);
         startActivity(intent);
-        getActivity().finish();
+        Objects.requireNonNull(getActivity()).finish();
     }
 }

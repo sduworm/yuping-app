@@ -7,6 +7,7 @@
 
     <include layout="@layout/toolbar" />
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,12 +15,12 @@
         android:layout_marginTop="25dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="10dp"
-        android:hint="昵称"
+        android:hint="个性签名"
         app:counterEnabled="true"
-        app:counterMaxLength="15">
+        app:counterMaxLength="50">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameEditText"
+            android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
@@ -30,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:text="@string/change_my_name_tip"
+        android:text="@string/change_email_tip"
         android:textColor="@color/gray1"
         android:textSize="14sp" />
 
