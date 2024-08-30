@@ -8,6 +8,7 @@
     <include layout="@layout/toolbar" />
 
     <LinearLayout
+        android:id="@+id/editAvatar"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@drawable/selector_common_item"
@@ -79,7 +80,7 @@
         app:title="手机 (其他人不可见)" />
 
     <cn.wildfire.chat.kit.widget.OptionItemView
-        android:id="@+id/email"
+        android:id="@+id/editEmail"
         style="@style/OptionItem"
         android:layout_marginTop="10dp"
         android:background="@drawable/selector_option_item"

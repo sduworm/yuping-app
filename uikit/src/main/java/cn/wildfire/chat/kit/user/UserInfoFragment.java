@@ -257,7 +257,6 @@ public class UserInfoFragment extends Fragment {
     }
     void edit() {
         Intent intent = new Intent(getActivity(), EditUserInfoActivity.class);
-        intent.putExtra("userInfo", userInfo);
         startActivity(intent);
     }
 
