@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray5"
+    android:orientation="vertical">
+
+    <!--
+    使用LightAppBar 主题时，layout_height="110dp"，paddingTop="0dp" 更协调
+    -->
+    <LinearLayout
+        android:id="@+id/myselfLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/selector_common_item"
+        android:paddingTop="20dp"
+        android:paddingRight="3dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="@dimen/option_item_margin_right"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:id="@+id/myselfAvatarImageView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/avatar_def" />
+        </com.google.android.material.card.MaterialCardView>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/myselfDisplayName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="3dp"
+                android:singleLine="true"
+                android:text="wfc"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/myselfNameIdTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:singleLine="true"
+                android:text="@string/my_chat_account"
+                android:textColor="@color/gray23"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/ic_right" />
+
+    </LinearLayout>
+
+    <View style="@style/Line" />
+    <cn.wildfire.chat.kit.widget.OptionItemView
+        android:id="@+id/editItemView"
+        style="@style/OptionItem"
+        android:background="@drawable/selector_common_item"
+        app:show_arrow_indicator="true"
+        app:start_src="@mipmap/ic_account"
+        app:title="编辑个人资料" />
+
+    <View style="@style/Line" />
+    <cn.wildfire.chat.kit.widget.OptionItemView
+        android:id="@+id/myselfAccountOptionItemView"
+        style="@style/OptionItem"
+        android:background="@drawable/selector_common_item"
+        app:show_arrow_indicator="true"
+        app:start_src="@mipmap/ic_account"
+        app:title="改密码" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/option_item_margin_top"
+        android:orientation="vertical">
+
+        <cn.wildfire.chat.kit.widget.OptionItemView
+            android:id="@+id/myselfBottlesOptionItemView"
+            style="@style/OptionItem"
+            android:background="@drawable/selector_common_item"
+            app:show_arrow_indicator="true"
+            app:show_divider="false"
+            app:start_src="@mipmap/ic_notification"
+            app:title="漂流瓶" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/option_item_margin_top"
+        android:orientation="vertical">
+
+
+
+        <cn.wildfire.chat.kit.widget.OptionItemView
+            android:id="@+id/myselfSettingOptionItemView"
+            style="@style/OptionItem"
+            android:background="@drawable/selector_common_item"
+            android:clickable="true"
+            app:show_arrow_indicator="true"
+            app:start_src="@mipmap/ic_setting"
+            app:title="@string/setting" />
+    </LinearLayout>
+</LinearLayout>

@@ -7,6 +7,7 @@ package cn.wildfire.chat.kit.user;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
@@ -28,9 +29,7 @@ public class UserInfoActivity extends WfcBaseActivity {
 
     @Override
     protected void afterViews() {
-        if (!isDarkTheme()) {
-            setTitleBackgroundResource(R.color.white, false);
-        }
+        setToolbarVisibility(View.GONE);
         userInfo = getIntent().getParcelableExtra("userInfo");
         String groupId = getIntent().getStringExtra("groupId");
         if (userInfo == null) {

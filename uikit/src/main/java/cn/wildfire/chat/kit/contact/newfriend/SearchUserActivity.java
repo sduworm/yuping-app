@@ -28,7 +28,7 @@ public class SearchUserActivity extends SearchActivity {
     protected String searchTip() {
         String tip;
         if (this.domainInfo == null) {
-            tip = "在本单位搜索用户\n输入关键词开始搜索";
+            tip = "查找用户\n支持ID搜索、昵称关键词模糊搜索";
         } else {
             tip = "在 " + domainInfo.name + " 搜索用户\n输入关键词开始搜索";
         }

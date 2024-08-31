@@ -78,7 +78,7 @@
         android:layout_marginTop="20dp"
         android:background="@null"
         android:drawableBottom="@drawable/selector_edit_focus"
-        android:hint="给朋友留言"
+        android:hint="给好友留言"
         android:paddingLeft="5dp"
         android:visibility="visible" />
 

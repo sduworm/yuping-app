@@ -47,8 +47,8 @@
     public void init(***);
 }
 
--keep class cn.wildfire.chat.app.login.model.** {*;}
--keepclassmembers class cn.wildfire.chat.app.login.model.** {
+-keep class com.yuping.chat.app.login.model.** {*;}
+-keepclassmembers class com.yuping.chat.app.login.model.** {
   *;
 }
 

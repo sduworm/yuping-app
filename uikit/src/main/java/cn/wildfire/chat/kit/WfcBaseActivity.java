@@ -94,6 +94,10 @@ public abstract class WfcBaseActivity extends AppCompatActivity {
         setStatusBarTheme(this, dark);
     }
 
+    protected void setToolbarVisibility(int visibility){
+        toolbar.setVisibility(visibility);
+    }
+
     protected boolean isDarkTheme() {
         SharedPreferences sp = getSharedPreferences("wfc_kit_config", MODE_PRIVATE);
         return sp.getBoolean("darkTheme", true);

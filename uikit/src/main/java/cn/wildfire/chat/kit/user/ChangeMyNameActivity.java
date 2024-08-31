@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2020 WildFireChat. All rights reserved.
- */
-
 package cn.wildfire.chat.kit.user;
 
 import static cn.wildfirechat.model.ModifyMyInfoType.Modify_DisplayName;
@@ -71,7 +67,7 @@ public class ChangeMyNameActivity extends WfcBaseActivity {
 
     @Override
     protected int menu() {
-        return R.menu.user_change_my_name;
+        return R.menu.user_change_my_info;
     }
 
     @Override
@@ -98,11 +94,7 @@ public class ChangeMyNameActivity extends WfcBaseActivity {
 
     void inputNewName() {
         if (confirmMenuItem != null) {
-            if (nameEditText.getText().toString().trim().length() > 0) {
-                confirmMenuItem.setEnabled(true);
-            } else {
-                confirmMenuItem.setEnabled(false);
-            }
+            confirmMenuItem.setEnabled(!nameEditText.getText().toString().trim().isEmpty());
         }
     }
 

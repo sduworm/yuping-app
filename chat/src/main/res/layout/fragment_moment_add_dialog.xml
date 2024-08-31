@@ -1,0 +1,40 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#80000000"> <!-- 半透明背景 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/moment_new_moment_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:inputType="textMultiLine"
+            android:lines="6"
+            android:minLines="6"
+            android:maxLines="6"
+            android:layout_marginTop="16dp"
+            android:hint="写动态..."
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray2" />
+
+        <Button
+            android:id="@+id/submit_new_moment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/moment_new_moment_text"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/gray"
+            android:text="发布" />
+
+
+    </RelativeLayout>
+
+</FrameLayout>

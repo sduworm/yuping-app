@@ -13,17 +13,18 @@
         android:layout_gravity="right"
         android:autoLink="phone|email|map|web"
         android:background="@drawable/img_bubble_send"
-        android:backgroundTint="@color/lightColorPrimary"
+        android:backgroundTint="#ff7da2"
         android:linksClickable="true"
         android:maxWidth="240dp"
-        android:minHeight="40dp"
+        android:minHeight="24dp"
         android:paddingLeft="16dp"
         android:paddingTop="12dp"
         android:paddingRight="16dp"
         android:paddingBottom="12dp"
         android:text="text "
+        android:textColor="@color/black0"
         android:textColorLink="#3655bf"
-        android:textSize="16sp"
+        android:textSize="40sp"
         tools:targetApi="q" />
 
     <TextView

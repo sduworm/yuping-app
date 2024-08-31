@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">野火IM</string>
+    <string name="app_name">遇瓶</string>
 
     <!--我-->
-    <string name="my_chat_account">账号:%1$s</string>
+    <string name="my_chat_account">ID:%1$s</string>
     <string name="setting">设置</string>
 
     <!--设置-->
@@ -15,7 +15,8 @@
     <string name="complaint">投诉</string>
     <string name="check_update">检查更新</string>
     <string name="terms_of_use_and_privacy_policy">使用条款和隐私政策</string>
-    <string name="name">野火IM</string>
-    <string name="slogan">沟通如此简单</string>
+    <string name="name">遇见漂流瓶</string>
+    <string name="slogan">独一无二的相逢</string>
+    <string name="name_with_point">遇 · 瓶</string>
 
 </resources>

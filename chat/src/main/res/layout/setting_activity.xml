@@ -15,11 +15,34 @@
         android:orientation="vertical">
 
         <cn.wildfire.chat.kit.widget.OptionItemView
-            android:id="@+id/privacySettingOptionItemView"
+            android:id="@+id/blacklistOptionItemView"
             style="@style/OptionItem"
             android:background="@drawable/selector_option_item"
             app:show_arrow_indicator="true"
-            app:title="隐私设置" />
+            app:title="黑名单" />
+        <View style="@style/Line" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/option_item_margin_top"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/item_margin_left_and_right"
+            android:paddingRight="@dimen/item_margin_left_and_right">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="加我为好友时，需要验证"
+                android:textColor="@color/black0"
+                android:textSize="18sp" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchAddFriendNeedVerify"
+                style="@style/defaultSwitch"
+                android:layout_gravity="center_vertical|right" />
+
+        </FrameLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -29,28 +52,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <cn.wildfire.chat.kit.widget.OptionItemView
-            android:id="@+id/aboutOptionItemView"
-            style="@style/OptionItem"
-            android:background="@drawable/selector_option_item"
-            app:show_arrow_indicator="true"
-            app:title="关于" />
-
-        <cn.wildfire.chat.kit.widget.OptionItemView
-            android:id="@+id/diagnoseOptionItemView"
-            style="@style/OptionItem"
-            android:background="@drawable/selector_common_item"
-            android:clickable="true"
-            app:show_arrow_indicator="true"
-            app:title="诊断" />
-
-        <cn.wildfire.chat.kit.widget.OptionItemView
-            android:id="@+id/uploadLogOptionItemView"
-            style="@style/OptionItem"
-            android:background="@drawable/selector_common_item"
-            android:clickable="true"
-            app:show_arrow_indicator="true"
-            app:title="上传日志" />
+        <View style="@style/Line" />
 
         <cn.wildfire.chat.kit.widget.OptionItemView
             android:id="@+id/batteryOptionItemView"
@@ -59,6 +61,36 @@
             android:clickable="true"
             app:show_arrow_indicator="true"
             app:title="电池优化" />
+
+        <View style="@style/Line" />
+
+        <cn.wildfire.chat.kit.widget.OptionItemView
+            android:id="@+id/suggestionOptionItemView"
+            style="@style/OptionItem"
+            android:background="@drawable/selector_common_item"
+            android:clickable="true"
+            app:show_arrow_indicator="true"
+            app:title="反馈建议" />
+
+        <View style="@style/Line" />
+
+        <cn.wildfire.chat.kit.widget.OptionItemView
+            android:id="@+id/softwareUpdateOptionItemView"
+            style="@style/OptionItem"
+            android:background="@drawable/selector_common_item"
+            android:clickable="true"
+            app:show_arrow_indicator="true"
+            app:title="软件更新" />
+
+        <View style="@style/Line" />
+
+        <cn.wildfire.chat.kit.widget.OptionItemView
+            android:id="@+id/nullifyAccountOptionItemView"
+            style="@style/OptionItem"
+            android:background="@drawable/selector_common_item"
+            android:clickable="true"
+            app:show_arrow_indicator="true"
+            app:title="注销账号" />
     </LinearLayout>
 
     <LinearLayout
@@ -77,8 +109,10 @@
             android:background="@drawable/selector_option_item"
             android:gravity="center"
             android:text="@string/exit"
-            android:textColor="@color/black1"
-            android:textSize="16sp" />
+            android:textColor="@color/red7"
+            android:textSize="18sp" />
+
+
 
         <View style="@style/Line" />
     </LinearLayout>
