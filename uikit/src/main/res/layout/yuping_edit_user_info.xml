@@ -21,7 +21,7 @@
             android:background="@color/white"
             android:text="头像"
             android:textColor="@color/black1"
-            android:textSize="18sp" />
+            android:textSize="19sp" />
 
         <Space
             android:layout_width="0dp"

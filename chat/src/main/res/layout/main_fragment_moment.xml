@@ -25,5 +25,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:tint="@color/white"
         app:srcCompat="@mipmap/yuping_add_white" />
 </RelativeLayout>

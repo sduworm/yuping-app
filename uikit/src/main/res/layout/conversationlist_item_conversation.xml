@@ -94,7 +94,7 @@
                         android:maxLines="1"
                         android:text="会话名称"
                         android:textColor="@color/black0"
-                        android:textSize="18sp" />
+                        android:textSize="19sp" />
 
                     <TextView
                         android:id="@+id/organizationGroupIndicator"

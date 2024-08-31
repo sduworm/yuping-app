@@ -59,7 +59,7 @@
                 android:singleLine="true"
                 android:text="wfc"
                 android:textColor="@color/black1"
-                android:textSize="18sp" />
+                android:textSize="19sp" />
 
             <TextView
                 android:id="@+id/descTextView"

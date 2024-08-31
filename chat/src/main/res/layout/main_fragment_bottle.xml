@@ -29,7 +29,7 @@
             android:backgroundTint="@color/colorPrimary"
             android:text="捞漂流瓶"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="19sp" />
 
         <Space
             android:layout_width="20dp"
@@ -42,7 +42,7 @@
             android:layout_weight="1"
             android:backgroundTint="@color/gray8"
             android:text="扔漂流瓶"
-            android:textSize="18sp" />
+            android:textSize="19sp" />
 
     </LinearLayout>
 

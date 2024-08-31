@@ -129,7 +129,8 @@ public abstract class ConversationViewHolder extends RecyclerView.ViewHolder {
         Draft draft = Draft.fromDraftJson(conversationInfo.draft);
         if (draft != null) {
             String draftString = draft.getContent() != null ? draft.getContent() : "[草稿]";
-            MoonUtils.identifyFaceExpression(fragment.getActivity(), contentTextView, draft.getContent(), ImageSpan.ALIGN_BOTTOM);
+            contentTextView.setText(draftString);
+//            MoonUtils.identifyFaceExpression(fragment.getActivity(), contentTextView, draft.getContent(), ImageSpan.ALIGN_BOTTOM);
             setViewVisibility(R.id.promptTextView, View.VISIBLE);
             setViewVisibility(R.id.contentTextView, View.VISIBLE);
         } else {
@@ -158,7 +159,8 @@ public abstract class ConversationViewHolder extends RecyclerView.ViewHolder {
                     e.printStackTrace();
                 }
                 content = WfcTextUtils.htmlToText(content);
-                MoonUtils.identifyFaceExpression(fragment.getActivity(), contentTextView, content, ImageSpan.ALIGN_BOTTOM);
+                contentTextView.setText(content);
+//                MoonUtils.identifyFaceExpression(fragment.getActivity(), contentTextView, content, ImageSpan.ALIGN_BOTTOM);
 
                 switch (lastMessage.status) {
                     case Sending:

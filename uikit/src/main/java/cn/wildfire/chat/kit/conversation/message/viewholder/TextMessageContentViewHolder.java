@@ -80,10 +80,12 @@ public class TextMessageContentViewHolder extends NormalMessageContentViewHolder
             if (spanned != null && spanned.length() > 0) {
                 contentTextView.setText(spanned);
             } else {
-                MoonUtils.identifyFaceExpression(fragment.getContext(), contentTextView, ((TextMessageContent) message.message.content).getContent(), ImageSpan.ALIGN_BOTTOM);
+                contentTextView.setText(textMessageContent.getContent());
+//                MoonUtils.identifyFaceExpression(fragment.getContext(), contentTextView, ((TextMessageContent) message.message.content).getContent(), ImageSpan.ALIGN_BOTTOM);
             }
         } else {
-            MoonUtils.identifyFaceExpression(fragment.getContext(), contentTextView, ((TextMessageContent) message.message.content).getContent(), ImageSpan.ALIGN_BOTTOM);
+            contentTextView.setText(textMessageContent.getContent());
+//            MoonUtils.identifyFaceExpression(fragment.getContext(), contentTextView, ((TextMessageContent) message.message.content).getContent(), ImageSpan.ALIGN_BOTTOM);
         }
         contentTextView.setMovementMethod(new LinkTextViewMovementMethod(new LinkClickListener() {
             @Override
