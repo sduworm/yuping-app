@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
+import java.util.Objects;
+
 import cn.wildfire.chat.kit.ChatManagerHolder;
 import cn.wildfire.chat.kit.R;
 import cn.wildfire.chat.kit.annotation.ConversationInfoType;
@@ -42,7 +44,7 @@ public class SingleConversationViewHolder extends ConversationViewHolder {
             .with(fragment)
             .load(portrait)
             .placeholder(R.mipmap.avatar_def)
-            .transforms(new CenterCrop(), new RoundedCorners(UIUtils.dip2Px(fragment.getContext(), 4)))
+            .transforms(new CenterCrop(), new RoundedCorners(UIUtils.dip2Px(fragment.requireContext(), 4)))
             .into(portraitImageView);
         nameTextView.setText(name);
     }

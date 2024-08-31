@@ -93,8 +93,8 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="会话名称"
-                        android:textColor="@color/black1"
-                        android:textSize="16sp" />
+                        android:textColor="@color/black0"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/organizationGroupIndicator"
@@ -122,7 +122,7 @@
                 android:maxLines="1"
                 android:text="12:01"
                 android:textColor="@color/gray11"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
         </LinearLayout>
 
         <!--消息-->
@@ -150,7 +150,7 @@
                     android:maxLines="1"
                     android:text="@string/draft"
                     android:textColor="@color/red7"
-                    android:textSize="13sp"
+                    android:textSize="15sp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -172,7 +172,7 @@
                     android:ellipsize="marquee"
                     android:singleLine="true"
                     android:textColor="@color/gray11"
-                    android:textSize="13sp"
+                    android:textSize="15sp"
                     tools:text="[草稿]" />
 
             </LinearLayout>

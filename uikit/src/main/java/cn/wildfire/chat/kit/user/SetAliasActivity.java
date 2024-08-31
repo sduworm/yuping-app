@@ -51,7 +51,7 @@ public class SetAliasActivity extends WfcBaseActivity {
         contactViewModel = ViewModelProviders.of(this).get(ContactViewModel.class);
         String alias = contactViewModel.getFriendAlias(userId);
         if (!TextUtils.isEmpty(alias)) {
-            aliasEditText.setHint(alias);
+            aliasEditText.setText(alias);
         }
     }
 
