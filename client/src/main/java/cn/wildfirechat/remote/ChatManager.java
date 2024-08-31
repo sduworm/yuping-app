@@ -5368,6 +5368,22 @@ public class ChatManager {
     }
 
     /**
+     * 获取已经加入聊天室的ID
+     * @return 已经加入聊天室的ID，如果为空或者空字符，说明未加入聊天室。
+     */
+    public String getJoinedChatroom() {
+        if (!checkRemoteService()) {
+            return null;
+        }
+        try {
+            return mClient.getJoinedChatroom();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * 获取用户信息
      *
      * @param userId
@@ -6936,32 +6952,34 @@ public class ChatManager {
             return;
         }
 
-        try {
-            List<GroupMember> groupMemberList = new ArrayList<>();
-            mClient.getGroupMemberEx(groupId, forceUpdate, new IGetGroupMemberCallback.Stub() {
-                @Override
-                public void onSuccess(List<GroupMember> groupMembers, boolean hasMore) throws RemoteException {
-                    groupMemberList.addAll(groupMembers);
-                    if (!hasMore) {
-                        if (callback != null) {
-                            mainHandler.post(() -> callback.onSuccess(groupMemberList));
+        workHandler.post(() -> {
+            try {
+                List<GroupMember> groupMemberList = new ArrayList<>();
+                mClient.getGroupMemberEx(groupId, forceUpdate, new IGetGroupMemberCallback.Stub() {
+                    @Override
+                    public void onSuccess(List<GroupMember> groupMembers, boolean hasMore) throws RemoteException {
+                        groupMemberList.addAll(groupMembers);
+                        if (!hasMore) {
+                            if (callback != null) {
+                                mainHandler.post(() -> callback.onSuccess(groupMemberList));
+                            }
                         }
                     }
-                }
 
-                @Override
-                public void onFailure(int errorCode) throws RemoteException {
-                    if (callback != null) {
-                        mainHandler.post(() -> callback.onFail(errorCode));
+                    @Override
+                    public void onFailure(int errorCode) throws RemoteException {
+                        if (callback != null) {
+                            mainHandler.post(() -> callback.onFail(errorCode));
+                        }
                     }
+                });
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                if (callback != null) {
+                    callback.onFail(-1);
                 }
-            });
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            if (callback != null) {
-                callback.onFail(-1);
             }
-        }
+        });
     }
 
     private String groupMemberCacheKey(String groupId, String memberId) {
@@ -8117,6 +8135,23 @@ public class ChatManager {
         }
     }
 
+    /**
+     * 获取数据目录所在磁盘的可用空间。
+     * @return 磁盘的可用空间
+     */
+    public long getDiskSpaceAvailableSize() {
+        if (!checkRemoteService()) {
+            return -1;
+        }
+
+        try {
+            return mClient.getDiskSpaceAvailableSize();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
     private String getLogPath() {
         return gContext.getCacheDir().getAbsolutePath() + "/log";
     }
@@ -8143,7 +8178,7 @@ public class ChatManager {
      * 设置第三方推送设备token
      *
      * @param token
-     * @param pushType 使用什么推送你，可选值参考{@link cn.wildfirechat.push.PushService.PushServiceType}
+     * @param pushType 使用什么推送你，可选值参考{@link cn.wildfirechat.push.PushService.PushServiceType}，这个值最大不能超过127
      */
     public void setDeviceToken(String token, int pushType) {
         Log.d(TAG, "setDeviceToken " + token + " " + pushType);

@@ -1865,6 +1865,11 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
             });
         }
 
+        @Override
+        public String getJoinedChatroom() throws RemoteException {
+            return ProtoLogic.getJoinedChatroom();
+        }
+
 
         @Override
         public void deleteFriend(String userId, final IGeneralCallback callback) throws RemoteException {
@@ -3561,6 +3566,11 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
         }
 
         @Override
+        public long getDiskSpaceAvailableSize() throws RemoteException {
+            return ProtoLogic.getAvailableSize();
+        }
+
+        @Override
         public void setProxyInfo(Socks5ProxyInfo proxyInfo) throws RemoteException {
             ProtoLogic.setProxyInfo(proxyInfo.host, proxyInfo.ip, proxyInfo.port, proxyInfo.username, proxyInfo.password);
         }
@@ -4060,7 +4070,12 @@ public class ClientService extends Service implements SdtLogic.ICallBack,
         SdtLogic.setCallBack(this);
         // Initialize the Mars PlatformComm
         handler = new Handler(Looper.getMainLooper());
-        Mars.init(getApplicationContext(), handler);
+        // https://github.com/wildfirechat/android-chat/issues/872
+        try {
+            Mars.init(getApplicationContext(), handler);
+        } catch (Exception e) {
+            // do nothing
+        }
 
         android.util.Log.d(TAG, "onnCreate");
         uploadingMap = new ConcurrentHashMap<>();
