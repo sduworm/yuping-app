@@ -17,11 +17,10 @@ public class BottleService {
         return Instance;
     }
 
-    public void createMoment(String content, String images, SimpleCallback<StatusResult> callback) {
-        String url = AppService.APP_SERVER_ADDRESS + "/moment/addMoment";
+    public void newBottle(String content, String images, SimpleCallback<StatusResult> callback) {
+        String url = AppService.APP_SERVER_ADDRESS + "/bottle/add";
         Map<String, Object> params = new HashMap<>();
         params.put("content", content);
-        params.put("images", images);
 
         OKHttpHelper.post(url, params, callback);
     }

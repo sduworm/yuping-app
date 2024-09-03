@@ -4,45 +4,77 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/bottle_background_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@mipmap/bottle_page_bg2" />
+        android:layout_gravity="bottom"
+        android:src="@mipmap/bottle_page_bg_night_clean" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:layout_alignParentBottom="true"
+        android:src="@mipmap/bottle" />
 
     <LinearLayout
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="70dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="5dp">
 
-
-        <Button
-            android:id="@+id/btn_pick_bottle"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="捞漂流瓶"
+        <FrameLayout
+            android:id="@+id/btn_throw_bottle"
+            android:layout_width="70dp"
+            android:layout_height="90dp"
+            android:layout_gravity="bottom">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="bottom"
+            android:text="扔一个"
             android:textColor="@color/white"
-            android:textSize="19sp" />
+            android:textSize="15sp" />
+        </FrameLayout>
+        <Space
+            android:layout_width="70dp"
+            android:layout_height="wrap_content" />
+        <FrameLayout
+            android:id="@+id/btn_pick_bottle"
+            android:layout_width="70dp"
+            android:layout_height="90dp"
+            android:layout_gravity="bottom">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                android:text="捡一个"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </FrameLayout>
 
         <Space
-            android:layout_width="20dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/btn_throw_bottle"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/gray8"
-            android:text="扔漂流瓶"
-            android:textSize="19sp" />
+        <FrameLayout
+            android:id="@+id/btn_my_bottle"
+            android:layout_width="70dp"
+            android:layout_height="90dp"
+            android:layout_gravity="bottom">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                android:text="我的瓶子"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </FrameLayout>
 
     </LinearLayout>
 

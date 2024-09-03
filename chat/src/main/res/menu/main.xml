@@ -43,4 +43,33 @@
                 app:iconTint="@color/colorPrimary" />
         </menu>
     </item>
+    <item
+        android:id="@+id/bottle_filter"
+        android:icon="@mipmap/yuping_filter_s"
+        android:orderInCategory="100"
+        android:title="筛选"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/all_male_female"
+                android:icon="@mipmap/yuping_see_s"
+                android:orderInCategory="100"
+                android:title="捡瓶子不限性别"
+                app:iconTint="@color/colorPrimary" />
+
+            <item
+                android:id="@+id/only_male"
+                android:icon="@mipmap/yuping_male_s"
+                android:orderInCategory="101"
+                android:title="仅看男"
+                app:iconTint="@color/gray0" />
+
+            <item
+                android:id="@+id/only_female"
+                android:icon="@mipmap/yuping_female_s"
+                android:orderInCategory="102"
+                android:title="仅看女"
+                app:iconTint="@color/gray0" />
+        </menu>
+    </item>
 </menu>

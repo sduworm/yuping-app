@@ -209,8 +209,10 @@ public class MainActivity extends WfcBaseActivity implements ViewPager.OnPageCha
         // yuping暂不开启右上角菜单
         MenuItem menuItemSearch = menu.findItem(R.id.search);
         MenuItem menuItemMore = menu.findItem(R.id.more);
+        MenuItem menuItemBottle = menu.findItem(R.id.bottle_filter);
         menuItemSearch.setVisible(false);
         menuItemMore.setVisible(false);
+        menuItemBottle.setVisible(true);
         boolean isEnableSecretChat = ChatManager.Instance().isEnableSecretChat();
         if (!isEnableSecretChat) {
             MenuItem menuItem = menu.findItem(R.id.secretChat);
