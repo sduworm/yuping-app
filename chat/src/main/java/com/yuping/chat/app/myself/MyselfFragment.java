@@ -21,6 +21,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.yuping.chat.R;
+import com.yuping.chat.app.bottle.MyBottlesActivity;
 import com.yuping.chat.app.setting.AccountActivity;
 import com.yuping.chat.app.setting.SettingActivity;
 
@@ -43,6 +44,7 @@ public class MyselfFragment extends Fragment {
     TextView nameIdTextView;
 
     OptionItemView bottlesOptionItem;
+    OptionItemView notifySettingItem;
     OptionItemView editItemView;
     OptionItemView settingOptionItem;
 
@@ -80,7 +82,8 @@ public class MyselfFragment extends Fragment {
         portraitImageView = view.findViewById(R.id.myselfAvatarImageView);
         displayNameTextView = view.findViewById(R.id.myselfDisplayName);
         nameIdTextView = view.findViewById(R.id.myselfNameIdTextView);
-        bottlesOptionItem = view.findViewById(R.id.myselfBottlesOptionItemView);
+        bottlesOptionItem = view.findViewById(R.id.myBottleItemView);
+        notifySettingItem = view.findViewById(R.id.notifySettingItemView);
         settingOptionItem = view.findViewById(R.id.myselfSettingOptionItemView);
         editItemView = view.findViewById(cn.wildfire.chat.kit.R.id.editItemView);
     }
@@ -89,8 +92,14 @@ public class MyselfFragment extends Fragment {
         view.findViewById(R.id.myselfLinearLayout).setOnClickListener(v -> showMyInfo());
         view.findViewById(R.id.myselfAccountOptionItemView).setOnClickListener(v -> account());
         view.findViewById(R.id.myselfSettingOptionItemView).setOnClickListener(v -> setting());
-        view.findViewById(R.id.myselfBottlesOptionItemView).setOnClickListener(v -> msgNotifySetting());
+        view.findViewById(R.id.notifySettingItemView).setOnClickListener(v -> msgNotifySetting());
+        view.findViewById(R.id.myBottleItemView).setOnClickListener(v -> showMyBottle());
         editItemView.setOnClickListener(_v -> edit());
+    }
+
+    private void showMyBottle() {
+        Intent intent = new Intent(getActivity(), MyBottlesActivity.class);
+        startActivity(intent);
     }
 
     private void updateUserInfo(UserInfo userInfo) {

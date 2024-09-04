@@ -95,13 +95,22 @@
         android:orientation="vertical">
 
         <cn.wildfire.chat.kit.widget.OptionItemView
-            android:id="@+id/myselfBottlesOptionItemView"
+            android:id="@+id/notifySettingItemView"
             style="@style/OptionItem"
             android:background="@drawable/selector_common_item"
             app:show_arrow_indicator="true"
             app:show_divider="false"
             app:start_src="@mipmap/ic_notification"
-            app:title="漂流瓶" />
+            app:title="消息与通知" />
+
+        <cn.wildfire.chat.kit.widget.OptionItemView
+            android:id="@+id/myBottleItemView"
+            style="@style/OptionItem"
+            android:background="@drawable/selector_common_item"
+            app:show_arrow_indicator="true"
+            app:show_divider="false"
+            app:start_src="@mipmap/ic_notification"
+            app:title="我的瓶子" />
 
     </LinearLayout>
 

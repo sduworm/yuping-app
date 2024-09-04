@@ -116,6 +116,9 @@
         <activity
             android:name=".app.setting.FeedbackActivity"
             android:label="反馈建议" />
+        <activity
+            android:name=".app.bottle.MyBottlesActivity"
+            android:label="我的瓶子"/>
         <activity android:name=".app.setting.AccountActivity" />
         <activity
             android:name=".app.misc.DiagnoseActivity"

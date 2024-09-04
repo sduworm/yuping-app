@@ -1,4 +1,4 @@
-package com.yuping.chat.app.moment;
+package com.yuping.chat.app.bottle;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.yuping.chat.R;
 
 import java.time.LocalDate;
@@ -16,15 +15,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
-public class MomentListItemAdapter extends RecyclerView.Adapter<MomentListItemViewHolder> {
+public class MyBottleListItemAdapter extends RecyclerView.Adapter<MyBottleListItemViewHolder> {
 
-    private final List<MomentModel> dataList; // 假设你有一个MyDataModel类来存储每个列表项的数据
+    private final List<MyBottleModel> dataList; // 假设你有一个MyDataModel类来存储每个列表项的数据
 
-    public MomentListItemAdapter(List<MomentModel> dataList) {
+    public MyBottleListItemAdapter(List<MyBottleModel> dataList) {
         this.dataList = dataList;
     }
 
-    public void updateDataList(List<MomentModel> newDataList) {
+    public void updateDataList(List<MyBottleModel> newDataList) {
         // 更新数据列表
         this.dataList.clear();
         this.dataList.addAll(newDataList);
@@ -35,38 +34,20 @@ public class MomentListItemAdapter extends RecyclerView.Adapter<MomentListItemVi
 
     @NonNull
     @Override
-    public MomentListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_moment_listitem, parent, false);
-        return new MomentListItemViewHolder(view);
+    public MyBottleListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_bottle_listitem, parent, false);
+        return new MyBottleListItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MomentListItemViewHolder holder, int position) {
-        MomentModel data = dataList.get(position);
-        Long momentId = data.getMomentId();
-        holder.textViewNickname.setText(data.getDisplayName());
+    public void onBindViewHolder(@NonNull MyBottleListItemViewHolder holder, int position) {
+        MyBottleModel data = dataList.get(position);
+        Long bid = data.getBid();
+
         holder.textViewContent.setText(data.getContent());
-        holder.textUpdateTime.setText(formatDateTime(data.getUpdateDateTime()));
-        Glide.with(holder.itemView).load(data.getAvatar()).into(holder.imageViewAvatar);
-        holder.textLikeCount.setText(String.valueOf(data.getLikeCount()));
-        holder.imageLike.setImageResource(data.getLike() ? R.mipmap.yuping_like : R.mipmap.yuping_unlike);
-        holder.imageLike.setOnClickListener(e->{
-            boolean isLike = data.getLike();
-            int likeCount = data.getLikeCount();
-            if(isLike) { // 取消点赞
-                holder.imageLike.setImageResource(R.mipmap.yuping_unlike);
-                data.setLike(false);
-                data.setLikeCount(--likeCount);
-                holder.textLikeCount.setText(String.valueOf(likeCount));
-                MomentService.Instance().unlikeMoment(momentId);
-            } else { // 点赞
-                holder.imageLike.setImageResource(R.mipmap.yuping_like);
-                data.setLike(true);
-                data.setLikeCount(++likeCount);
-                holder.textLikeCount.setText(String.valueOf(likeCount));
-                MomentService.Instance().likeMoment(momentId);
-            }
-        });
+        holder.textUpdateTime.setText(formatDateTime(data.getDateTime()));
+
+        holder.textPikedCount.setText(String.valueOf(data.getPicked()));
     }
 
     @Override

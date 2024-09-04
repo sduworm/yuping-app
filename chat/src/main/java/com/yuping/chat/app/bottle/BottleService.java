@@ -3,6 +3,7 @@ package com.yuping.chat.app.bottle;
 import com.yuping.chat.app.AppService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cn.wildfire.chat.kit.net.OKHttpHelper;
@@ -25,4 +26,11 @@ public class BottleService {
         OKHttpHelper.post(url, params, callback);
     }
 
+    public void getMyBottles(int page, int size, SimpleCallback<List<MyBottleModel>> callback) {
+        String url = AppService.APP_SERVER_ADDRESS + "/bottle/list";
+        Map<String, String> params = new HashMap<>();
+        params.put("page", String.valueOf(page));
+        params.put("size", String.valueOf(size));
+        OKHttpHelper.get(url, params, callback);
+    }
 }

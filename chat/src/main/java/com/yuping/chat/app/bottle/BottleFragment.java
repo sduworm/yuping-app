@@ -1,8 +1,8 @@
 package com.yuping.chat.app.bottle;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,13 +17,12 @@ import androidx.fragment.app.Fragment;
 
 import com.yuping.chat.R;
 
-import cn.wildfire.chat.kit.user.SetAliasActivity;
-
 
 public class BottleFragment extends Fragment {
 
     View throwButton;
     View pickButton;
+    View myBottleButton;
 
     private Dialog dialog;
 
@@ -34,23 +33,26 @@ public class BottleFragment extends Fragment {
         View v = inflater.inflate(R.layout.main_fragment_bottle, container, false);
         bindViews(v);
         bindEvents();
-        init();
         return v;
     }
 
     private void bindViews(View view) {
         throwButton = view.findViewById(R.id.btn_throw_bottle);
         pickButton = view.findViewById(R.id.btn_pick_bottle);
+        myBottleButton = view.findViewById(R.id.btn_my_bottle);
         bindDialog();
     }
 
     private void bindEvents() {
         throwButton.setOnClickListener(e -> dialog.show());
+        myBottleButton.setOnClickListener(e -> showMyBottle());
 
         bindDialogEvent();
     }
 
-    private void init() {
+    private void showMyBottle() {
+        Intent intent = new Intent(getActivity(), MyBottlesActivity.class);
+        startActivity(intent);
     }
 
     private void newBottle(String content) {
