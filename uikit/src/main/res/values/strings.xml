@@ -23,8 +23,9 @@
     <string name="set_alias_and_tag">设置备注和标签</string>
     <string name="send_message">发消息</string>
     <string name="add_to_contact">添加到通讯录</string>
-    <string name="change_my_name_tip">系统将不定期审核，不合规的昵称将被系统警告、强制修改甚至封号处罚。</string>
-    <string name="change_email_tip">系统将不定期审核，不合规的签名将被系统警告、强制修改甚至封号处罚。</string>
+    <string name="change_my_name_tip">系统将不定期审核\n不合规的昵称将被系统警告、强制修改甚至封号处罚。</string>
+    <string name="change_email_tip">系统将不定期审核\n不合规的签名将被系统警告、强制修改甚至封号处罚。</string>
+    <string name="change_tip">系统将不定期审核，请保持个人信息文明，维护社区良好环境</string>
 
     <!--修改备注-->
     <string name="alias">备注名</string>

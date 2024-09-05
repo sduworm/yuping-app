@@ -32,6 +32,7 @@ import cn.wildfire.chat.kit.favorite.FavoriteListActivity;
 import cn.wildfire.chat.kit.settings.MessageNotifySettingActivity;
 import cn.wildfire.chat.kit.user.EditUserInfoActivity;
 import cn.wildfire.chat.kit.user.UserInfoActivity;
+import cn.wildfire.chat.kit.user.UserUtils;
 import cn.wildfire.chat.kit.user.UserViewModel;
 import cn.wildfire.chat.kit.widget.OptionItemView;
 import cn.wildfirechat.model.UserInfo;
@@ -94,6 +95,7 @@ public class MyselfFragment extends Fragment {
         view.findViewById(R.id.myselfSettingOptionItemView).setOnClickListener(v -> setting());
         view.findViewById(R.id.notifySettingItemView).setOnClickListener(v -> msgNotifySetting());
         view.findViewById(R.id.myBottleItemView).setOnClickListener(v -> showMyBottle());
+        view.findViewById(R.id.myselfAvatarImageView).setOnClickListener(v -> UserUtils.portrait(getActivity()));
         editItemView.setOnClickListener(_v -> edit());
     }
 

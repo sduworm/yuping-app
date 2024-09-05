@@ -212,7 +212,7 @@ public class MainActivity extends WfcBaseActivity implements ViewPager.OnPageCha
         MenuItem menuItemBottle = menu.findItem(R.id.bottle_filter);
         menuItemSearch.setVisible(false);
         menuItemMore.setVisible(false);
-        menuItemBottle.setVisible(true);
+        menuItemBottle.setVisible(false);// 筛选filter先不弄
         boolean isEnableSecretChat = ChatManager.Instance().isEnableSecretChat();
         if (!isEnableSecretChat) {
             MenuItem menuItem = menu.findItem(R.id.secretChat);

@@ -22,8 +22,8 @@
             android:id="@+id/nameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:maxLines="4" />
+            android:maxLines="4"
+            android:maxLength="15"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView

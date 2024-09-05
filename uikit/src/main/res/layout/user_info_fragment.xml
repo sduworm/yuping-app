@@ -185,7 +185,7 @@
                         style="@style/OptionItem"
                         android:background="@drawable/selector_option_item"
                         app:show_arrow_indicator="true"
-                        app:title="个性签名" />
+                        app:title="编辑个性签名" />
 
                     <View style="@style/Line" />
                     <cn.wildfire.chat.kit.widget.OptionItemView

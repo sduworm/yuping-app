@@ -1,11 +1,8 @@
 package cn.wildfire.chat.kit.user;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -72,7 +69,7 @@ public class EditUserInfoActivity extends WfcBaseActivity {
         editEmail = findViewById(R.id.editEmail);
         emailView = findViewById(R.id.emailView);
 
-        editAvatar.setOnClickListener(_v -> portrait());
+        editAvatar.setOnClickListener(_v -> UserUtils.portrait(this));
         displayName.setOnClickListener(_v -> changeDisplayName());
         editEmail.setOnClickListener(_v -> changeEmail());
         emailView.setOnClickListener(_v -> changeEmail());
@@ -88,32 +85,32 @@ public class EditUserInfoActivity extends WfcBaseActivity {
         startActivity(intent);
     }
 
-    void portrait() {
-        String[] permissions;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            permissions = new String[]{
-                    Manifest.permission.READ_MEDIA_IMAGES,
-            };
-        } else {
-            permissions = new String[]{
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-            };
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            for (String permission : permissions) {
-                if (checkCallingOrSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(permissions, 100);
-                    return;
-                }
-            }
-        }
-        ImagePicker.picker().pick(this, REQUEST_CODE_PICK_IMAGE);
-    }
+//    void portrait() {
+//        String[] permissions;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            permissions = new String[]{
+//                    Manifest.permission.READ_MEDIA_IMAGES,
+//            };
+//        } else {
+//            permissions = new String[]{
+//                    Manifest.permission.READ_EXTERNAL_STORAGE,
+//            };
+//        }
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            for (String permission : permissions) {
+//                if (checkCallingOrSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+//                    requestPermissions(permissions, 100);
+//                    return;
+//                }
+//            }
+//        }
+//        ImagePicker.picker().pick(this, REQUEST_CODE_PICK_IMAGE);
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == UserUtils.REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
             ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
             if (images == null || images.isEmpty()) {
                 Toast.makeText(this, "更新头像失败: 选取文件失败 ", Toast.LENGTH_SHORT).show();
@@ -129,7 +126,7 @@ public class EditUserInfoActivity extends WfcBaseActivity {
             MutableLiveData<OperateResult<Boolean>> result = userViewModel.updateUserPortrait(imagePath);
             result.observe(this, booleanOperateResult -> {
                 if (booleanOperateResult.isSuccess()) {
-                    Toast.makeText(this, "更新头像成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "更新头像成功，1分钟内生效", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "更新头像失败: " + booleanOperateResult.getErrorCode(), Toast.LENGTH_SHORT).show();
                 }
