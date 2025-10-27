@@ -37,7 +37,6 @@ import com.huawei.agconnect.config.AGConnectServicesConfig;
 import com.huawei.hms.aaid.HmsInstanceId;
 import com.huawei.hms.api.HuaweiApiClient;
 import com.huawei.hms.common.ApiException;
-import com.meizu.cloud.pushsdk.util.MzSystemUtils;
 import com.vivo.push.IPushActionListener;
 import com.vivo.push.PushClient;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -83,9 +82,6 @@ public class PushService {
         if (SYS_EMUI.equals(sys)) {
             INST.pushServiceType = PushServiceType.HMS;
             INST.initHMS(gContext);
-        } else if (/*SYS_FLYME.equals(sys) && INST.isMZConfigured(gContext)*/MzSystemUtils.isBrandMeizu()) {
-            INST.pushServiceType = PushServiceType.MeiZu;
-            INST.initMZ(gContext);
         } else if (SYS_VIVO.equalsIgnoreCase(sys)) {
             INST.pushServiceType = PushServiceType.VIVO;
             INST.initVIVO(gContext);
@@ -256,22 +252,7 @@ public class PushService {
     }
 
     private boolean initMZ(Context context) {
-        String packageName = context.getPackageName();
-        try {
-            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA);
-            if (appInfo.metaData != null) {
-                String appId = "" + appInfo.metaData.get("MEIZU_PUSH_APP_ID");
-                String appKey = appInfo.metaData.getString("MEIZU_PUSH_APP_KEY");
-                if (!TextUtils.isEmpty(appId) && !TextUtils.isEmpty(appKey)) {
-                    String pushId = com.meizu.cloud.pushsdk.PushManager.getPushId(context);
-                    com.meizu.cloud.pushsdk.PushManager.register(context, String.valueOf(appId), appKey);
-                    com.meizu.cloud.pushsdk.PushManager.switchPush(context, String.valueOf(appId), appKey, pushId, 1, true);
-                    ChatManager.Instance().setDeviceToken(pushId, PushServiceType.MeiZu);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         return false;
     }
 
